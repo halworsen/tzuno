@@ -21,11 +21,11 @@ public class WarRoomBTSearcher extends Task<Void>{
     private RemoteDevice hc05device;
     private String hc05Url;
 
-    private Controller controller;
+    private WarRoomController controller;
     private boolean scanFinished = false;
 
 
-    BTSearcher(Controller controller) {
+    WarRoomBTSearcher(WarRoomController controller) {
         this.controller = controller;
     }
 

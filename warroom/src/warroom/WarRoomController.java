@@ -25,15 +25,15 @@ public class WarRoomController {
     private Label readyLabel;
 
     private InputStream btIS;
-    private BTSearcher searcher;
-    private BTReader reader;
+    private WarRoomBTSearcher searcher;
+    private WarRoomBTReader reader;
 
     @FXML
     void searchButtonPress(ActionEvent event) throws InterruptedException {
         searchButton.setDisable(true);
         searchButton.setText("Søker...");
 
-        searcher = new BTSearcher(this);
+        searcher = new WarRoomBTSearcher(this);
         new Thread(searcher).start();
 
         // Vent til tråden har funnet bluetooth-enheten
@@ -43,7 +43,7 @@ public class WarRoomController {
 
         searchButton.setText("Tilkoblet");
         // Begynn å lese meldinger fra bluetooth-enheten
-        reader = new BTReader(this, btIS);
+        reader = new WarRoomBTReader(this, btIS);
         new Thread(reader).start(); // Gjør det på en annen tråd så vi kan oppdatere grensesnittet
     }
 

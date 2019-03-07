@@ -7,7 +7,7 @@ import javafx.concurrent.Task;
 
 public class WarRoomBTReader extends Task<Void> {
 
-    private WarRoomControllerController controller;
+    private WarRoomController controller;
 
     private InputStream btIS;
 
