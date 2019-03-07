@@ -33,18 +33,9 @@ public class WarRoomController {
         searchButton.setDisable(true);
         searchButton.setText("Søker...");
 
+        // Begynn å søke
         searcher = new WarRoomBTSearcher(this);
         new Thread(searcher).start();
-
-        // Vent til tråden har funnet bluetooth-enheten
-        while(btIS == null) {
-            Thread.sleep(500);
-        }
-
-        searchButton.setText("Tilkoblet");
-        // Begynn å lese meldinger fra bluetooth-enheten
-        reader = new WarRoomBTReader(this, btIS);
-        new Thread(reader).start(); // Gjør det på en annen tråd så vi kan oppdatere grensesnittet
     }
 
     protected void msgReceived(String msg) {
@@ -63,6 +54,17 @@ public class WarRoomController {
 
     protected void setInputStream(InputStream btIS) {
         this.btIS = btIS;
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                searchButton.setText("Tilkoblet");
+            }
+        });
+
+        // Begynn å lese meldinger fra bluetooth-enheten
+        reader = new WarRoomBTReader(this, btIS);
+        new Thread(reader).start();
     }
 
     @FXML

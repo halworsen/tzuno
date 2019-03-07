@@ -24,39 +24,30 @@ public class WarRoomBTReader extends Task<Void> {
             return null;
         }
 
-        System.out.println("Attempting read");
-
         String msg = "";
-        boolean reading = false;
 
-        // Vent på meldinger fra Arduinoen
+        // Wait for messages from the Arduino
         while(true) {
             int available = btIS.available();
             if(available == 0) {
+                // Yield while there is no data to read
                 Thread.yield();
                 continue;
             }
 
-            // Les meldingen
+            // Read each byte of the message
             for(int i = 0; i < available; i++) {
-                int b = btIS.read(); // Les en byte
-                char c = (char)b; // Gjør den om til en bokstav
+                int b = btIS.read(); // Read a byte
+                char c = (char)b;
 
-                if(c == '#') {
-                    if(reading) {
-                        // Meldingen er ferdig
-                        reading = false;
-
-                        controller.msgReceived(msg);
-                    } else {
-                        // Ny melding
-                        reading = true;
-                        msg = "";
-                    }
+                if(c == '<') {
+                    // New message
+                    msg = "";
+                } else if(c == '>') {
+                    // Message is over
+                    controller.msgReceived(msg);
                 } else {
-                    if(reading) {
-                        msg += c;
-                    }
+                    msg += c;
                 }
             }
         }
