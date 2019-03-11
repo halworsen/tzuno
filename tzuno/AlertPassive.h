@@ -12,13 +12,13 @@ Ser etter angripere, og kjører til siden, snur og får overtaket
 */
 
 class AlertPassive : public Strategy {
-private:
+//private:
     
 public:
     AlertPassive();
     ~AlertPassive();
 
     void run();
-}
+};
 
 #endif

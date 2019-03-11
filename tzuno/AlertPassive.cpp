@@ -9,6 +9,6 @@ AlertPassive::~AlertPassive() {
 }
 
 
-AlertPassive::run() {
+void AlertPassive::run() {
 
 }
