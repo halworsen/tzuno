@@ -1,14 +1,20 @@
 #include <ZumoShield.h>
-#include "SpinAttack.h"
+#include <NewServo.h>
+#include "AggressiveRadar.h"
 
 Strategy* strat;
 
 void setup() {
-    strat = new SpinAttack();
-void setup() {
-//dasda
+
+    // Instansiering av strategi, eksempel
+    strat = new AggressiveRadar();
 }
 
 void loop() {
+    // Infrarød sjekk på bane
+
+    // Sonarmåling
+
+    // Strategiens loop
     strat->run();
 }
