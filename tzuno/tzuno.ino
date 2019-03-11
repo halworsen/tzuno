@@ -5,6 +5,8 @@ Strategy* strat;
 
 void setup() {
     strat = new SpinAttack();
+void setup() {
+//dasda
 }
 
 void loop() {
