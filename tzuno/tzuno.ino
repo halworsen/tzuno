@@ -10,18 +10,10 @@ Strategy* strat;
 
 
 void setup() {
-<<<<<<< HEAD
     strat = new SpinAttack();
 void setup() {
     //dasda
     strat = new AggressiveRadar();
-=======
-
-    // Instansiering av strategi, eksempel
-    strat = new AggressiveRadar();
-    // Endre strategi:
-    strat = new AlertPassive();
->>>>>>> 7e580f3cb3d40b814caa75c42db3f53e4ae6467d
 }
 
 void loop() {
