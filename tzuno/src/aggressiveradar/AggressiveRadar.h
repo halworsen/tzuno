@@ -15,7 +15,7 @@ Ekstra: Få med seg hvilken retning motstander forsvant, og spinn i den
 retningen for å spare tid.
 
 */
-#define ARENA_SIZE 100
+#define ARENA_SIZE 50
 
 class AggressiveRadar : public Strategy {
 private:

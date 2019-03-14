@@ -19,23 +19,23 @@ AggressiveRadar::AggressiveRadar(ZumoMotors *motors) : AggressiveRadar(400, 400)
 
 // Settere
 void AggressiveRadar::setAttackSpeed(int s) {
-    attackSpeed = 0 < s < 400 ? s : attackSpeed;
+    attackSpeed = 0 <= s <= 400 ? s : attackSpeed;
 }
 
 void AggressiveRadar::setTurnSpeed(int s) {
-    turnSpeed = 0 < s < 400 ? s : turnSpeed;
+    turnSpeed = 0 <= s <= 400 ? s : turnSpeed;
 }
 
 
 void AggressiveRadar::run() {
     // While enemy not found, spin, use sonar
-    if (sonarDistance > ARENA_SIZE)
+    if (sonarDistance > ARENA_SIZE || sonarDistance == 0)
     {
-      motors->setSpeeds(400, -400);
+      motors->setSpeeds(turnSpeed, -turnSpeed);
     }
     // If enemy seen, attack
     else
     {
-      motors->setSpeeds(400, 400);
+      motors->setSpeeds(attackSpeed, attackSpeed);
     }
 }

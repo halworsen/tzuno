@@ -18,7 +18,7 @@
 // Sonar
 #define ECHOPIN       0 
 #define TRIGGERPIN    1
-#define MAX_DISTANCE 25
+#define MAX_DISTANCE  100
 //=========================================================
 
 
@@ -40,6 +40,7 @@ NewPing sonar(TRIGGERPIN, ECHOPIN, MAX_DISTANCE);
 void setup() {
     strat = new AggressiveRadar(&motors);
     button.waitForButton();
+    Serial.begin(9600);
 }
 
 
@@ -56,6 +57,7 @@ void loop() {
       unsigned int t = sonar.ping();
       float dist = sonar.convert_cm(t);
       strat->setSonarDistance(dist);
+      Serial.println(dist);
     }
     
 
