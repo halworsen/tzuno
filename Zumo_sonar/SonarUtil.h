@@ -18,4 +18,5 @@ const int triggerPin;
 int maxDistance;
 
 float distance();
+//Servo styring?
 
