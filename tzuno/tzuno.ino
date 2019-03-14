@@ -5,11 +5,11 @@
 #include "AggressiveRadar.h"
 #include "AlertPassive.h"
 
+// Defines
+
 Strategy* strat;
 
 void setup() {
-    strat = new SpinAttack();
-    //dasda
     strat = new AggressiveRadar();
 }
 
