@@ -20,3 +20,4 @@ int maxDistance;
 float distance();
 //Servo styring?
 
+#endif
