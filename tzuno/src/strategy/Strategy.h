@@ -16,6 +16,7 @@ i valg av strategi
 class Strategy {
 protected:
     float sonarDistance;
+    float lateSonarDistance;
     ZumoMotors* motors;
 	bool borderLeft;
 	bool borderRight;

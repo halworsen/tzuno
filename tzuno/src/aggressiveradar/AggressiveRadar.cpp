@@ -5,14 +5,6 @@
 AggressiveRadar::AggressiveRadar(int aSpeed, int tSpeed) : attackSpeed(aSpeed), turnSpeed(tSpeed) {
 }
 
-AggressiveRadar::AggressiveRadar(int speed) : AggressiveRadar(speed, speed) {
-
-}
-
-AggressiveRadar::AggressiveRadar() : AggressiveRadar(200, 200) {
-    
-}
-
 AggressiveRadar::AggressiveRadar(ZumoMotors *motors) : AggressiveRadar(400, 400) {
     this->motors = motors;
 }
@@ -29,9 +21,17 @@ void AggressiveRadar::setTurnSpeed(int s) {
 
 void AggressiveRadar::run() {
     // While enemy not found, spin, use sonar
-    if (sonarDistance > ARENA_SIZE || sonarDistance == 0)
+    if (sonarDistance > ARENA_SIZE &&
+      lateSonarDistance > ARENA_SIZE)
     {
       motors->setSpeeds(turnSpeed, -turnSpeed);
+    }
+    // Border detection
+    else if (borderLeft || borderRight)
+    {
+      motors->setSpeeds(-200, -200);
+      delay(200);
+      motors->setSpeeds(0, 0);
     }
     // If enemy seen, attack
     else

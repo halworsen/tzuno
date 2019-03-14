@@ -5,8 +5,11 @@ Strategy::Strategy() {}
 Strategy::~Strategy() {}
 
 
-void Strategy::setSonarDistance(float d) { sonarDistance = d > 0 ? d : 1000; }
+void Strategy::setSonarDistance(float d) {
+    lateSonarDistance = sonarDistance;
+    sonarDistance = d > 0 ? d : 1000; 
+}
 
 void Strategy::setBorderLeft(bool l) { this->borderLeft = l; }
 	
-void setBorderRight(bool r) { this->borderRight = r; }
+void Strategy::setBorderRight(bool r) { this->borderRight = r; }

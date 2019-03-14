@@ -37,7 +37,7 @@ NewPing sonar(TRIGGERPIN, ECHOPIN, MAX_DISTANCE);
 
 unsigned int sensor_values[NUM_SENSORS];
 
-ZumoReflectanceSensorArray sensors(QTR_NO_EMITTER_PIN)
+ZumoReflectanceSensorArray sensors(QTR_NO_EMITTER_PIN);
 //=========================================================
 
 

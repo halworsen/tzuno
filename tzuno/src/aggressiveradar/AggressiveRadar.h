@@ -15,7 +15,7 @@ Ekstra: Få med seg hvilken retning motstander forsvant, og spinn i den
 retningen for å spare tid.
 
 */
-#define ARENA_SIZE 50
+#define ARENA_SIZE 40
 
 class AggressiveRadar : public Strategy {
 private:
@@ -25,8 +25,6 @@ private:
 public:
     // Set speeds to tweek aggression
     AggressiveRadar(int aSpeed, int tSpeed);
-    AggressiveRadar(int speed);
-    AggressiveRadar();
     AggressiveRadar(ZumoMotors* motors);
     ~AggressiveRadar();
 
