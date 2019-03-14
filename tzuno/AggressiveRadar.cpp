@@ -2,7 +2,7 @@
 
 // Konstruktører
 AggressiveRadar::AggressiveRadar(int aSpeed, int tSpeed) : attackSpeed(aSpeed), turnSpeed(tSpeed) {
-    
+    this->name = "Aggressive Radar";
 }
 
 AggressiveRadar::AggressiveRadar(int speed) : AggressiveRadar(speed, speed) {
