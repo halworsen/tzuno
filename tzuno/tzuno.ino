@@ -2,8 +2,8 @@
 #include <ZumoMotors.h>
 
 // Strategier
-#include "AggressiveRadar.h"
-#include "AlertPassive.h"
+#include "src/aggressiveradar/AggressiveRadar.h"
+#include "src/alertpassive/AlertPassive.h"
 
 // Defines
 
