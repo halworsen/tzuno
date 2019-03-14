@@ -8,6 +8,7 @@
 
 /*
 Instrument kant
+-Lese sensorene
 -bool for venstre og høyre side
 */
 #define LED 13
@@ -22,6 +23,8 @@ Instrument kant
 unsigned int sensor_values[NUM_SENSORS];
 
 ZumoReflectanceSensorArray sensors(QTR_NO_EMITTER_PIN);
+
+void read_s();
 
 bool border_left();
 

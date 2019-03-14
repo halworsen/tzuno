@@ -7,3 +7,7 @@ bool border_left(){
 bool border_right(){
 	return sensor_values[5]<QTR_THRESHOLD;
 }
+
+void read_s(){
+	sensors.read(sensor_values);
+}
