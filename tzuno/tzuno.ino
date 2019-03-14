@@ -1,13 +1,33 @@
 #include <ZumoShield.h>
-#include <ZumoMotors.h>
 
+//=========================================================
 // Strategier
-#include "src/aggressiveradar/AggressiveRadar.h"
-#include "src/alertpassive/AlertPassive.h"
+//---------------------------------------------------------
+#include "AggressiveRadar.h"
+#include "AlertPassive.h"
+//=========================================================
 
+
+//=========================================================
 // Defines
+//---------------------------------------------------------
+// IR
+#define QTR_THRESHOLD  1900 // microseconds
+#define NUM_SENSORS    6    
+//=========================================================
 
+
+//=========================================================
+// Deklarasjoner
+//---------------------------------------------------------
 Strategy* strat;
+
+ZumoMotors motors;
+
+Pushbutton button(ZUMO_BUTTON);
+
+usigned int sensor_values[NUM_SENSORS];
+//=========================================================
 
 void setup() {
     strat = new AggressiveRadar();
@@ -18,6 +38,8 @@ void loop() {
     
 
     // Infrarød sjekk på bane
+    // Borderdetection
+    
 
     // Sonarmåling
     strat->setSonarDistance(0);

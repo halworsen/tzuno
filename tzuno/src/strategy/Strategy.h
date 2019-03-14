@@ -3,7 +3,6 @@
 
 #include <Arduino.h>
 #include <WString.h>
-#include <Zumo
 
 /*
 Strategisuperklassen, alle strategier implementerer denne.
@@ -17,6 +16,7 @@ i valg av strategi
 class Strategy {
 protected:
     float sonarDistance;
+    
     
 public:
     // Konstruktør og destruktør gjør ingenting annet enn 
