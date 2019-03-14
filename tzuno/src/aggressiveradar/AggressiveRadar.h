@@ -27,7 +27,7 @@ public:
     AggressiveRadar(int aSpeed, int tSpeed);
     AggressiveRadar(int speed);
     AggressiveRadar();
-    AggressiveRadar(ZumoMotors *motors);
+    AggressiveRadar(ZumoMotors* motors);
     ~AggressiveRadar();
 
 

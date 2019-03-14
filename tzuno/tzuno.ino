@@ -1,4 +1,5 @@
 #include <ZumoShield.h>
+#include <NewPing.h>
 
 //=========================================================
 // Strategier
@@ -12,8 +13,12 @@
 // Defines
 //---------------------------------------------------------
 // IR
-#define QTR_THRESHOLD  1900 // microseconds
-#define NUM_SENSORS    6    
+//#define QTR_THRESHOLD  1900 // microseconds
+//#define NUM_SENSORS    6    
+// Sonar
+#define ECHOPIN       0 
+#define TRIGGERPIN    1
+#define MAX_DISTANCE 25
 //=========================================================
 
 
@@ -26,12 +31,16 @@ ZumoMotors motors;
 
 Pushbutton button(ZUMO_BUTTON);
 
-unsigned int sensor_values[NUM_SENSORS];
+NewPing sonar(TRIGGERPIN, ECHOPIN, MAX_DISTANCE);
+
+//unsigned int sensor_values[NUM_SENSORS];
 //=========================================================
 
+
 void setup() {
-    strat = new AggressiveRadar();
+    strat = new AggressiveRadar(&motors);
 }
+
 
 void loop() {
     // Mellom rundene
@@ -42,7 +51,12 @@ void loop() {
     
 
     // Sonarmåling
-    strat->setSonarDistance(0);
+    {
+      unsigned int t = sonar.ping();
+      float dist = sonar.convert_cm(t);
+      strat->setSonarDistance(dist);
+    }
+    
 
     // Strategiens loop
     strat->run();

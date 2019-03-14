@@ -20,6 +20,7 @@ Instrument kant
 // jo større verdi man kan ha, jo mer sensitiv for kanten blir den :))
 
 #define NUM_SENSORS 6
+
 unsigned int sensor_values[NUM_SENSORS];
 
 ZumoReflectanceSensorArray sensors(QTR_NO_EMITTER_PIN);
