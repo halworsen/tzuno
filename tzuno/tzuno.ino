@@ -5,6 +5,8 @@
 #include "src/aggressiveradar/AggressiveRadar.h"
 #include "src/alertpassive/AlertPassive.h"
 
+// Defines
+
 Strategy* strat;
 
 void setup() {

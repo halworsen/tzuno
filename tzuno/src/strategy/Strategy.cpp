@@ -5,4 +5,4 @@ Strategy::Strategy() {}
 Strategy::~Strategy() {}
 
 
-void Strategy::setSonarDistance(int d) { sonarDistance = d > 0 ? d : sonarDistance; }
+void Strategy::setSonarDistance(float d) { sonarDistance = d > 0 ? d : sonarDistance; }
