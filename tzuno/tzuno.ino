@@ -39,6 +39,7 @@ NewPing sonar(TRIGGERPIN, ECHOPIN, MAX_DISTANCE);
 
 void setup() {
     strat = new AggressiveRadar(&motors);
+    button.waitForButton();
 }
 
 
