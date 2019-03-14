@@ -17,6 +17,8 @@ const int echoPin;
 const int triggerPin;
 int maxDistance;
 
+NewPing sonar(triggerPin, echoPin, maxDistance);
+
 float distance();
 //Servo styring?
 
