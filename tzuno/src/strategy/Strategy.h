@@ -2,7 +2,7 @@
 #define _strategy_h_
 
 #include <Arduino.h>
-#include <WString.h>
+#include <ZumoShield.h>
 
 /*
 Strategisuperklassen, alle strategier implementerer denne.
@@ -16,7 +16,7 @@ i valg av strategi
 class Strategy {
 protected:
     float sonarDistance;
-    
+    ZumoMotors* motors;
     
 public:
     // Konstruktør og destruktør gjør ingenting annet enn 

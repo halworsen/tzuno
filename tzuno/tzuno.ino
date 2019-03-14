@@ -3,8 +3,8 @@
 //=========================================================
 // Strategier
 //---------------------------------------------------------
-#include "AggressiveRadar.h"
-#include "AlertPassive.h"
+#include "src/aggressiveradar/AggressiveRadar.h"
+#include "src/alertpassive/AlertPassive.h"
 //=========================================================
 
 
@@ -26,7 +26,7 @@ ZumoMotors motors;
 
 Pushbutton button(ZUMO_BUTTON);
 
-usigned int sensor_values[NUM_SENSORS];
+unsigned int sensor_values[NUM_SENSORS];
 //=========================================================
 
 void setup() {

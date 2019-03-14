@@ -1,6 +1,5 @@
 #include "AggressiveRadar.h"
 
-#define ARENA_SIZE 100
 
 // Konstruktører
 AggressiveRadar::AggressiveRadar(int aSpeed, int tSpeed) : attackSpeed(aSpeed), turnSpeed(tSpeed) {
@@ -12,6 +11,10 @@ AggressiveRadar::AggressiveRadar(int speed) : AggressiveRadar(speed, speed) {
 
 AggressiveRadar::AggressiveRadar() : AggressiveRadar(200, 200) {
     
+}
+
+AggressiveRadar::AggressiveRadar(ZumoMotors *motors) : AggressiveRadar(400, 400) {
+    this->motors = motors;
 }
 
 // Settere
@@ -28,11 +31,11 @@ void AggressiveRadar::run() {
     // While enemy not found, spin, use sonar
     if (sonarDistance > ARENA_SIZE)
     {
-      motor.setSpeed(400, -400);
+      motors->setSpeeds(400, -400);
     }
     // If enemy seen, attack
     else
     {
-      motor.setSpeed(400, 400);
+      motors->setSpeeds(400, 400);
     }
 }
