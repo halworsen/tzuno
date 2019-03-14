@@ -2,14 +2,12 @@
 #include <ZumoMotors.h>
 
 // Strategier
-#include "AggressiveRadar.h"
-#include "AlertPassive.h"
+#include "src/aggressiveradar/AggressiveRadar.h"
+#include "src/alertpassive/AlertPassive.h"
 
 Strategy* strat;
 
 void setup() {
-    strat = new SpinAttack();
-    //dasda
     strat = new AggressiveRadar();
 }
 

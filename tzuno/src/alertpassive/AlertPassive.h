@@ -2,7 +2,7 @@
 #define _alert_passive_h_
 
 #include <Arduino.h>
-#include "Strategy.h"
+#include "../strategy/Strategy.h"
 
 /*
 Strategi: På vakt
