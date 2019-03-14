@@ -17,6 +17,8 @@ class Strategy {
 protected:
     float sonarDistance;
     ZumoMotors* motors;
+	bool borderLeft;
+	bool borderRight;
     
 public:
     // Konstruktør og destruktør gjør ingenting annet enn 
@@ -28,6 +30,10 @@ public:
     virtual void run() = 0;
 
     void setSonarDistance(float d);
+	
+	void setBorderLeft(bool l);
+	
+	void setBorderRight(bool r);
 };
 
 #endif
