@@ -14,8 +14,7 @@ i valg av strategi
 */
 
 class Strategy {
-private:
-    string name;
+protected:
     int sonarDistance;
 public:
     // Konstruktør og destruktør gjør ingenting annet enn 
@@ -25,8 +24,6 @@ public:
 
     // Virtuelle funksjoner må implementeres av alle strategiklasser
     virtual void run() = 0;
-
-    static string getName();
 
     void setSonarDistance(int d);
 };
