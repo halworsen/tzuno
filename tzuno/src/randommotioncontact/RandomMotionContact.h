@@ -7,6 +7,7 @@
 
 /*
 Strategi "Random Motion (until)Contact"
+APPROVED
 Kjører tilfeldig, og unngår å kjøre ut, til den kolliderer 
 med motstander og kjører på
 */
@@ -17,7 +18,7 @@ private:
 	bool collision;
 public:
 	RandomMotionContact(int speed);
-	RandomMotionContact();
+	RandomMotionContact(ZumoMotors* motors);
 	~RandomMotionContact();
 	
 	//Gjøres i loopen

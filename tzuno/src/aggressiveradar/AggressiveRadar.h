@@ -6,6 +6,7 @@
 
 /*
 Strategi "Aggresiv Radar"
+NOT APPROVED
 -------------------------------------------------
 Snurrer rundt seg selv som en radar, og så snart den sanser et objekt 
 i nærheten angriper den fort. Stopper så snart den mister motstander 
@@ -25,7 +26,7 @@ private:
 public:
     // Set speeds to tweek aggression
     AggressiveRadar(int aSpeed, int tSpeed);
-    AggressiveRadar(ZumoMotors* motors);
+    AggressiveRadar(PLab_ZumoMotors* motors);
     ~AggressiveRadar();
 
 

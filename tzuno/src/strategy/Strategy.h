@@ -2,6 +2,7 @@
 #define _strategy_h_
 
 #include <Arduino.h>
+#include <PLab_ZumoMotors.h>
 #include <ZumoShield.h>
 
 /*
@@ -17,7 +18,7 @@ class Strategy {
 protected:
     float sonarDistance;
     float lateSonarDistance;
-    ZumoMotors* motors;
+    PLab_ZumoMotors* motors;
 	bool borderLeft;
 	bool borderRight;
     
@@ -33,8 +34,7 @@ public:
     void setSonarDistance(float d);
 	
 	void setBorderLeft(bool l);
-	
-	void setBorderRight(bool r);
+	void setBorderRight(bool r);  
 };
 
 #endif

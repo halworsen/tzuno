@@ -1,4 +1,5 @@
 #include <ZumoShield.h>
+#include <PLab_ZumoMotors.h>
 #include <NewPing.h>
 //#include <Wire.h> //Er kanskje relevant for border detection
 
@@ -7,6 +8,8 @@
 //---------------------------------------------------------
 #include "src/aggressiveradar/AggressiveRadar.h"
 #include "src/alertpassive/AlertPassive.h"
+#include "src/randommotioncontact/RandomMotionContact.h"
+#include "src/searchanddestroy/SearchAndDestroy.h"
 //=========================================================
 
 
@@ -29,22 +32,39 @@
 //---------------------------------------------------------
 Strategy* strat;
 
-ZumoMotors motors;
+PLab_ZumoMotors motors;
 
 Pushbutton button(ZUMO_BUTTON);
 
 NewPing sonar(TRIGGERPIN, ECHOPIN, MAX_DISTANCE);
 
 unsigned int sensor_values[NUM_SENSORS];
-
 ZumoReflectanceSensorArray sensors(QTR_NO_EMITTER_PIN);
 //=========================================================
 
 
 void setup() {
     strat = new AggressiveRadar(&motors);
-    button.waitForButton();
     Serial.begin(9600);
+
+    Serial.print(F(
+      "Angi strategi:\n" +
+      "0: Search and Destroy\n" +
+      "1: Random Motion Contact\n"
+      );
+
+    char c = Serial.read();
+
+    if (c = '0')
+    {
+      strat = new SearchAndDestroy(&motors);
+    }
+    else if (c = '1')
+    {
+      strat = new RandomMotionContact(&motors);
+    }
+    
+    button.waitForButton();
 }
 
 
@@ -68,7 +88,6 @@ void loop() {
         strat->setSonarDistance(dist);
         Serial.println(dist);
     }
-    
 
     // Strategiens loop
     strat->run();

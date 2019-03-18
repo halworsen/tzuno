@@ -5,7 +5,7 @@
 AggressiveRadar::AggressiveRadar(int aSpeed, int tSpeed) : attackSpeed(aSpeed), turnSpeed(tSpeed) {
 }
 
-AggressiveRadar::AggressiveRadar(ZumoMotors *motors) : AggressiveRadar(400, 400) {
+AggressiveRadar::AggressiveRadar(PLab_ZumoMotors *motors) : AggressiveRadar(400, 400) {
     this->motors = motors;
 }
 

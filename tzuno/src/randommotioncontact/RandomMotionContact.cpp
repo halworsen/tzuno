@@ -5,28 +5,29 @@ RandomMotionContact::RandomMotionContact(int speed){
 	this->speed = speed;
 }
 
-RandomMotionContact::RandomMotionContact(ZumoMotors *motors):RandomMotionContact(400){
+RandomMotionContact::RandomMotionContact(ZumoMotors *motors) : RandomMotionContact(400){
 	this->motors = motors;
 }
 //Gjøres i loopen
-void run();
+void RandomMotionContact::run() {
 	if(borderLeft){
-		turn(1)
+		turn(1);
 	}
 	else if(borderRight){
-		turn(-1)
+		turn(-1);
 	}
-	else{
+	else {
 		motors->setSpeeds(speed,speed);
-		}
+	}
+}
 
 //Kollisjon
-void contact(){
+void RandomMotionContact::contact(){
 	
 }
 
 //Beveglse
-void turn(int dir){
+void RandomMotionContact::turn(int dir){
 	if(dir){
 		motors->setSpeeds(-speed, -speed);
 		delay(200);
