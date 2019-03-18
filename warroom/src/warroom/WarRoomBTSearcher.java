@@ -121,7 +121,7 @@ public class WarRoomBTSearcher extends Task<Void>{
         StreamConnection streamConnection;
         try {
             streamConnection = (StreamConnection) Connector.open(hc05Url);
-            controller.setInputStream(streamConnection.openInputStream());
+            controller.setStream(streamConnection);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
