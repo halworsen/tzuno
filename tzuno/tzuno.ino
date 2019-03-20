@@ -1,10 +1,31 @@
+//=========================================================
+//                     Sun Tzuno                           
+//                    -----------                          
+//                        av                               
+//            Andreas                                      
+//            Andreas                                      
+//            Mats                                         
+//            Markus                                       
+//            Martin                                       
+//                                                         
+//                til Zumokonkurranse                      
+//                  PLab, vår 2019                         
+//=========================================================
+
+
+//=========================================================
+// Inkluderte biblioteker
+//---------------------------------------------------------
 //  #include <ZumoShield.h>
 #include <PLab_ZumoMotors.h>
-#include <QTRSensors.h>                   //
+#include <QTRSensors.h>                   //--------------------------
 #include <Pushbutton.h>                   //  Inneholdt i ZumoShield.h
-#include <ZumoReflectanceSensorArray.h>   //
+#include <ZumoReflectanceSensorArray.h>   //--------------------------
 #include <NewPing.h>
 #include <Wire.h> //Er kanskje relevant for border detection
+#include <NewServo.h>
+//=========================================================
+
 
 //=========================================================
 // Strategier
@@ -27,6 +48,8 @@
 #define ECHOPIN       2 
 #define TRIGGERPIN    1
 #define MAX_DISTANCE  100
+// Servo
+#define SERVOPIN      3
 //=========================================================
 
 
@@ -43,6 +66,8 @@ NewPing sonar(TRIGGERPIN, ECHOPIN, MAX_DISTANCE);
 
 unsigned int sensor_values[NUM_SENSORS];
 ZumoReflectanceSensorArray sensors(QTR_NO_EMITTER_PIN);
+
+Servo servo(SERVOPIN);
 //=========================================================
 
 
@@ -73,9 +98,6 @@ void setup() {
 
 
 void loop() {
-    // Mellom rundene
-    
-
     // Infrarød sjekk på bane
     // Borderdetection
   	{
@@ -85,6 +107,7 @@ void loop() {
     		strat->setBorderRight(r);
     		strat->setBorderLeft(l);
   	}
+   
     // Sonarmåling
     {
         unsigned int t = sonar.ping();
@@ -95,4 +118,5 @@ void loop() {
 
     // Strategiens loop
     strat->run();
+    Serial.println(strat->getState());
 }

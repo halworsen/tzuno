@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include <PLab_ZumoMotors.h>
+#include <NewServo.h>
 //#include <ZumoShield.h>
 
 /*
@@ -19,9 +20,11 @@ protected:
     float sonarDistance;
     float lateSonarDistance;
     PLab_ZumoMotors* motors;
+    Servo* servo;
 	bool borderLeft;
 	bool borderRight;
-    
+    // Debugging
+    char state;
 public:
     // Konstruktør og destruktør gjør ingenting annet enn 
     // å måtte være implementert.
@@ -32,9 +35,13 @@ public:
     virtual void run() = 0;
 
     void setSonarDistance(float d);
+    
+    char getState();
 	
 	void setBorderLeft(bool l);
 	void setBorderRight(bool r);  
+
+    void setServo(int degrees);
 };
 
 #endif

@@ -9,15 +9,18 @@ private:
     const short failTresh = 20; // Ticks before aborting attack
     short failCount;
 
-    const short freq = 50;  // Wandering variation frequency
+    const short freq = 25;  // Wandering variation frequency
     short i;
-    const unsigned short minSpeed = 150;
+    const unsigned short minSpeed = 10;
     const unsigned short maxSpeed = 200;
+
+    
 public:
     SearchAndDestroy(PLab_ZumoMotors* motors);
     ~SearchAndDestroy();
 
     void run();
+
 };
 
 #endif

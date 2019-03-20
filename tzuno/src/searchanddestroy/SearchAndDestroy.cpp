@@ -5,9 +5,11 @@ SearchAndDestroy::SearchAndDestroy(PLab_ZumoMotors* motors) {
     this->motors = motors;
     this->failCount = failTresh;
     this->i = 0;
+    this->state = 's';
 }
 
 SearchAndDestroy::~SearchAndDestroy() {}
+
 
 
 void SearchAndDestroy::run() {
@@ -15,24 +17,30 @@ void SearchAndDestroy::run() {
     if (borderLeft && borderRight)
     {
         // Snu 180 grader
-        motors->backward(300, 20);
-        motors->turnRight(400, 180);
+        motors->backward(300, 10);
+        motors->turnRight(300, 180);
+        failCount = 0;
     }
     else if (borderLeft)
     {
         // Snu høyre
-        motors->turnRight(400, 30);
+        motors->backward(300, 10);
+        motors->
+        failCount = 0;
     }
     else if (borderRight)
     {
         // Snu venstre
-        motors->turnLeft(400, 30);
+        motors->backward(300, 10);
+        motors->turnLeft(300, 90);
+        failCount = 0;
     }
     // Attack
-    else if (0 < sonarDistance < tresh)
+    else if (0 < sonarDistance && sonarDistance < tresh)
     {
         motors->setSpeeds(400, 400);
         failCount = 0;
+        this->state = 'a';
     }
     // Wandering
     else 
@@ -43,8 +51,15 @@ void SearchAndDestroy::run() {
             if (i > 0)
                 i--;
             else {
-                motors->setLeftSpeed(random(minSpeed, maxSpeed));
-                motors->setRightSpeed(random(minSpeed, maxSpeed));
+                this->state = 's';
+                int ls = random(minSpeed, maxSpeed);
+                int rs;
+                motors->setLeftSpeed(ls);
+                if (ls - minSpeed < 50) rs = maxSpeed;
+                else 
+                if (maxSpeed - ls < 50) rs = minSpeed;
+                else rs = random(minSpeed, maxSpeed);
+                motors->setRightSpeed(rs);
                 i = freq;
             }
         }
