@@ -14,7 +14,7 @@ private:
     const unsigned short minSpeed = 150;
     const unsigned short maxSpeed = 200;
 public:
-    SearchAndDestroy(PLab_sZumoMotors* motors);
+    SearchAndDestroy(PLab_ZumoMotors* motors);
     ~SearchAndDestroy();
 
     void run();

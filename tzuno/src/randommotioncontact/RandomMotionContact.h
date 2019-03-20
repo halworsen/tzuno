@@ -18,7 +18,7 @@ private:
 	bool collision;
 public:
 	RandomMotionContact(int speed);
-	RandomMotionContact(ZumoMotors* motors);
+	RandomMotionContact(PLab_ZumoMotors* motors);
 	~RandomMotionContact();
 	
 	//Gjøres i loopen

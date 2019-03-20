@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 #include <PLab_ZumoMotors.h>
-#include <ZumoShield.h>
+//#include <ZumoShield.h>
 
 /*
 Strategisuperklassen, alle strategier implementerer denne.

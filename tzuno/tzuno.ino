@@ -1,7 +1,10 @@
-#include <ZumoShield.h>
+//  #include <ZumoShield.h>
 #include <PLab_ZumoMotors.h>
+#include <QTRSensors.h>                   //
+#include <Pushbutton.h>                   //  Inneholdt i ZumoShield.h
+#include <ZumoReflectanceSensorArray.h>   //
 #include <NewPing.h>
-//#include <Wire.h> //Er kanskje relevant for border detection
+#include <Wire.h> //Er kanskje relevant for border detection
 
 //=========================================================
 // Strategier
@@ -21,7 +24,7 @@
 #define QTR_THRESHOLD  1900 // microseconds
 #define NUM_SENSORS    6    
 // Sonar
-#define ECHOPIN       0 
+#define ECHOPIN       2 
 #define TRIGGERPIN    1
 #define MAX_DISTANCE  100
 //=========================================================
@@ -44,25 +47,26 @@ ZumoReflectanceSensorArray sensors(QTR_NO_EMITTER_PIN);
 
 
 void setup() {
-    strat = new AggressiveRadar(&motors);
+    strat = new SearchAndDestroy(&motors);
     Serial.begin(9600);
-
-    Serial.print(F(
-      "Angi strategi:\n" +
-      "0: Search and Destroy\n" +
-      "1: Random Motion Contact\n"
-      );
-
-    char c = Serial.read();
-
-    if (c = '0')
-    {
-      strat = new SearchAndDestroy(&motors);
-    }
-    else if (c = '1')
-    {
-      strat = new RandomMotionContact(&motors);
-    }
+    randomSeed(analogRead(0));
+//
+//    Serial.print(F(
+//      "Angi strategi:\n" +
+//      "0: Search and Destroy\n" +
+//      "1: Random Motion Contact\n"
+//      );
+//
+//    char c = Serial.read();
+//
+//    if (c = '0')
+//    {
+//      strat = new SearchAndDestroy(&motors);
+//    }
+//    else if (c = '1')
+//    {
+//      strat = new RandomMotionContact(&motors);
+//    }
     
     button.waitForButton();
 }

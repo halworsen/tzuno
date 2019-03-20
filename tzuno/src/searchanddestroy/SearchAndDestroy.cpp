@@ -1,7 +1,7 @@
 #include "SearchAndDestroy.h"
 
 
-SearchAndDestroy::SearchAndDestroy(PLab_ZumoMotors *motors) {
+SearchAndDestroy::SearchAndDestroy(PLab_ZumoMotors* motors) {
     this->motors = motors;
     this->failCount = failTresh;
     this->i = 0;
@@ -15,6 +15,7 @@ void SearchAndDestroy::run() {
     if (borderLeft && borderRight)
     {
         // Snu 180 grader
+        motors->backward(300, 20);
         motors->turnRight(400, 180);
     }
     else if (borderLeft)
@@ -31,7 +32,7 @@ void SearchAndDestroy::run() {
     else if (0 < sonarDistance < tresh)
     {
         motors->setSpeeds(400, 400);
-        failCount = 0
+        failCount = 0;
     }
     // Wandering
     else 

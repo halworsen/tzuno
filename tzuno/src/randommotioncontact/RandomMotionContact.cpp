@@ -5,7 +5,7 @@ RandomMotionContact::RandomMotionContact(int speed){
 	this->speed = speed;
 }
 
-RandomMotionContact::RandomMotionContact(ZumoMotors *motors) : RandomMotionContact(400){
+RandomMotionContact::RandomMotionContact(PLab_ZumoMotors *motors) : RandomMotionContact(400){
 	this->motors = motors;
 }
 //Gjøres i loopen
