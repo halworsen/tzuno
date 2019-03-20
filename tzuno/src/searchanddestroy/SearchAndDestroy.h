@@ -3,6 +3,12 @@
 
 #include "../strategy/Strategy.h"
 
+/*
+Strategi: Search and Destroy
+------------------------------------------
+Vandrer på måfå på banen og angriper hvis den ser en fiende
+*/
+
 class SearchAndDestroy : public Strategy {
 private:
     const short tresh = 60; // Sonar attack treshold
