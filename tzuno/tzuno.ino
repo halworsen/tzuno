@@ -67,11 +67,15 @@ NewPing sonar(TRIGGERPIN, ECHOPIN, MAX_DISTANCE);
 unsigned int sensor_values[NUM_SENSORS];
 ZumoReflectanceSensorArray sensors(QTR_NO_EMITTER_PIN);
 
-Servo servo(SERVOPIN);
+Servo servo;
 //=========================================================
 
 
 void setup() {
+	//init servo
+	servo.attach(SERVOPIN)
+	
+	//strats
     strat = new SearchAndDestroy(&motors);
     Serial.begin(9600);
     randomSeed(analogRead(0));
