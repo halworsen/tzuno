@@ -143,7 +143,7 @@ public class WarRoomController {
     void initialize() {
         assert searchButton != null : "fx:id=\"searchButton\" was not injected: check your FXML file 'app.fxml'.";
 
-        commArea.setDisable(true);
+        commArea.setEditable(false);
         sendButton.setDisable(true);
     }
 

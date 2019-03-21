@@ -1,7 +1,6 @@
 package warroom;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.bluetooth.BluetoothStateException;
 import javax.bluetooth.DeviceClass;
@@ -18,8 +17,8 @@ import javafx.concurrent.Task;
 
 public class WarRoomBTSearcher extends Task<Void>{
 
-    private RemoteDevice hc05device;
-    private String hc05Url;
+    private RemoteDevice btDevice;
+    private String btUrl;
 
     private WarRoomController controller;
     private boolean scanFinished = false;
@@ -34,15 +33,15 @@ public class WarRoomBTSearcher extends Task<Void>{
         scanFinished = false;
 
         // Søk etter bluetooth-enheten til Arduinoen
+        controller.log("Searching for bluetooth devices...");
         LocalDevice.getLocalDevice().getDiscoveryAgent().startInquiry(DiscoveryAgent.GIAC, new DiscoveryListener() {
             @Override
             public void deviceDiscovered(RemoteDevice btDevice, DeviceClass cod) {
                 try {
                     String name = btDevice.getFriendlyName(false);
-                    System.out.format("%s (%s)\n", name, btDevice.getBluetoothAddress());
-                    if (name.matches("HC.*")) {
-                        hc05device = btDevice;
-                        controller.log("Tzuno bluetooth device found! Connecting...");
+                    if (name.equals("PLabTzuno")) {
+                        WarRoomBTSearcher.this.btDevice = btDevice;
+                        controller.log("Tzuno found! Connecting...");
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -81,8 +80,9 @@ public class WarRoomBTSearcher extends Task<Void>{
 
         scanFinished = false;
 
+        controller.log("Searching for service...");
         LocalDevice.getLocalDevice().getDiscoveryAgent().searchServices(attrIDs, searchUuidSet,
-                hc05device, new DiscoveryListener() {
+                btDevice, new DiscoveryListener() {
                     @Override
                     public void deviceDiscovered(RemoteDevice btDevice, DeviceClass cod) {
                     }
@@ -99,8 +99,8 @@ public class WarRoomBTSearcher extends Task<Void>{
                     @Override
                     public void servicesDiscovered(int transID, ServiceRecord[] servRecord) {
                         for (int i = 0; i < servRecord.length; i++) {
-                            hc05Url = servRecord[i].getConnectionURL(ServiceRecord.AUTHENTICATE_NOENCRYPT, false);
-                            if (hc05Url != null) {
+                            btUrl = servRecord[i].getConnectionURL(ServiceRecord.AUTHENTICATE_NOENCRYPT, false);
+                            if (btUrl != null) {
                                 break; //take the first one
                             }
                         }
@@ -115,12 +115,12 @@ public class WarRoomBTSearcher extends Task<Void>{
             }
         }
 
-        System.out.println(hc05device.getBluetoothAddress());
-        System.out.println(hc05Url);
+        controller.log("Tzuno address: " + btDevice.getBluetoothAddress());
+        controller.log("Tzuno URL: " + btUrl);
 
         StreamConnection streamConnection;
         try {
-            streamConnection = (StreamConnection) Connector.open(hc05Url);
+            streamConnection = (StreamConnection) Connector.open(btUrl);
             controller.setStream(streamConnection);
         } catch (IOException e) {
             e.printStackTrace();
