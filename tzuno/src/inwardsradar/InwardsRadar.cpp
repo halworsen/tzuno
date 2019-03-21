@@ -18,11 +18,13 @@ void InwardsRadar::run() {
 		back();
 		turn(1);
 		degrees = 180;
+		servo->write(degrees);
 	}
 	else if(borderRight){
 		back();
 		turn(-1);
 		degrees = 0;
+		servo->write(degrees);
 	}
 	else if (0<sonarDistance && sonarDistance<20){
 		turn(degrees-90);
@@ -45,7 +47,7 @@ void InwardsRadar::back(){
 }
 
 void InwardsRadar::turn(int dir){
-	if(dir){
+	if(dir>=0){
 		
 		motors->setSpeeds(speed, -speed);
 		delay(200);
@@ -56,4 +58,5 @@ void InwardsRadar::turn(int dir){
 		delay(200);
 		
 	}
+
 }
