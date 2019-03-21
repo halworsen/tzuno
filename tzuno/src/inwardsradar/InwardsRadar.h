@@ -17,6 +17,7 @@ private:
 	int speed;
 	bool collision;
 	int degrees;
+	int prev_degrees;
 public:
 	InwardsRadar(int speed);
 	InwardsRadar(PLab_ZumoMotors* motors, NewServo* servo);
@@ -31,6 +32,7 @@ public:
 	//Beveglse
 	void turn(int dir);
 	void back();
+	void extra_delay(int degrees);
 	
 };
 
