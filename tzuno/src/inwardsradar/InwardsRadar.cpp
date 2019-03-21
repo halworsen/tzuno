@@ -6,7 +6,7 @@ InwardsRadar::InwardsRadar(int speed){
 	this->degrees = 0;
 }
 
-InwardsRadar::InwardsRadar(PLab_ZumoMotors *motors, Servo* servo) : InwardsRadar(400){
+InwardsRadar::InwardsRadar(PLab_ZumoMotors *motors, NewServo* servo) : InwardsRadar(400){
 	this->motors = motors;
 }
 

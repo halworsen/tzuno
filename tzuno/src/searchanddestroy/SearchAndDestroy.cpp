@@ -48,11 +48,11 @@ void SearchAndDestroy::run() {
         if (failCount == failTresh) 
         {
             // Velg tilfeldig hastighet på hvert hjul innen et intervall
-            // motors->setSpeeds(
-            //     cos(i * 0.02 + 0) * maxSpeed/2 + maxSpeed/2,
-            //     cos(i * 0.02 + 0) * maxSpeed/2 + maxSpeed/2
-            // );
-            motors->setSpeeds(100, 100);
+            motors->setSpeeds(
+                sin(i * 0.06 - 3.14 / 2) * maxSpeed*2/5 + maxSpeed*3/5,
+                cos(i * 0.06 + 0) * maxSpeed*2/5 + maxSpeed*3/5
+            );
+            //motors->setSpeeds(100, 100);
             i++;
         }
         else failCount++;
