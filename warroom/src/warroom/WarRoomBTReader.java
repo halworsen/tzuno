@@ -12,25 +12,23 @@ public class WarRoomBTReader extends Task<Void> {
     private WarRoomController controller;
 
     private boolean stop = false;
-    private StreamConnection stream;
     private InputStream btIS;
 
     WarRoomBTReader(WarRoomController controller, StreamConnection stream) {
         super();
 
-        this.stream = stream;
         this.controller = controller;
 
         try {
             this.btIS = stream.openInputStream();
         } catch (IOException e) {
             System.out.println("Failed to initialize the BT input stream");
-            this.stop();
+            stop();
         }
     }
 
     protected void stop() {
-        this.stop = true;
+        stop = true;
     }
 
     @Override
@@ -40,13 +38,14 @@ public class WarRoomBTReader extends Task<Void> {
         }
 
         String msg = "";
-        System.out.println("Now listening for BT input stream bytes");
+        controller.log("BT reader is ready!");
 
         // Wait for messages from the Arduino
         while(true) {
             // Stans tråden
             if(stop) {
                 btIS.close();
+                controller.log("BT reader successfully stopped");
                 return null;
             }
 
@@ -62,7 +61,6 @@ public class WarRoomBTReader extends Task<Void> {
                 int b = btIS.read(); // Read a byte
                 char c = (char)b;
 
-                System.out.println(c);
                 if(c == '<') {
                     // New message
                     msg = "";
@@ -75,4 +73,5 @@ public class WarRoomBTReader extends Task<Void> {
             }
         }
     }
+
 }

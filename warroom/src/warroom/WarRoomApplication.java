@@ -17,4 +17,5 @@ public class WarRoomApplication extends Application{
     public static void main(final String[] args) {
         WarRoomApplication.launch(args);
     }
+
 }

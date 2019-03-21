@@ -1,8 +1,6 @@
 package warroom;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.ConnectException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -10,7 +8,6 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -37,8 +34,10 @@ public class WarRoomController {
     private TextArea commArea;
 
     private StreamConnection stream;
+
     private WarRoomBTSearcher searcher;
     private WarRoomBTReader reader;
+    private WarRoomBTWriter writer;
 
     @FXML
     void searchButtonPress(ActionEvent event) throws InterruptedException {
@@ -52,14 +51,26 @@ public class WarRoomController {
 
     @FXML
     void sendMessage(ActionEvent event) {
+        String msg = msgField.getText();
+        msgField.setText("");
 
+        if(msg == "!closeconn") {
+            try {
+                closeStream();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        writer.sendMsg(msg);
+        commArea.appendText("<- " + msg + "\n");
     }
 
     protected void msgReceived(String msg) {
         // Oppdater tekst
         Platform.runLater(new Runnable() {
             @Override public void run() {
-                commArea.appendText(msg + "\n");
+                commArea.appendText("-> " + msg + "\n");
 
                 if(msg == "closeconn") {
                     try {
@@ -79,12 +90,19 @@ public class WarRoomController {
             @Override
             public void run() {
                 searchButton.setText("Tilkoblet");
+                sendButton.setDisable(false);
             }
         });
+
+        log("Successfully connected to Tzuno");
 
         // Begynn å lese meldinger fra bluetooth-enheten
         reader = new WarRoomBTReader(this, stream);
         new Thread(reader).start();
+
+        // Klargjør bluetooth-skriveren
+        writer = new WarRoomBTWriter(this, stream);
+        new Thread(writer).start();
     }
 
     protected void closeStream() throws IOException {
@@ -101,8 +119,24 @@ public class WarRoomController {
         }
         this.reader = null;
 
+        // Stans bluetooth-skriver-tråden
+        if(writer.isRunning()) {
+            writer.stop();
+        }
+        this.writer = null;
+
+        sendButton.setDisable(true);
         searchButton.setDisable(false);
         searchButton.setText("Søk etter Tzuno");
+    }
+
+    void log(String msg) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                commArea.appendText("LOG: " + msg + "\n");
+            }
+        });
     }
 
     @FXML
@@ -110,5 +144,7 @@ public class WarRoomController {
         assert searchButton != null : "fx:id=\"searchButton\" was not injected: check your FXML file 'app.fxml'.";
 
         commArea.setDisable(true);
+        sendButton.setDisable(true);
     }
+
 }

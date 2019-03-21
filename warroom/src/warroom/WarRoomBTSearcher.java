@@ -33,7 +33,7 @@ public class WarRoomBTSearcher extends Task<Void>{
     protected Void call() throws BluetoothStateException {
         scanFinished = false;
 
-        // Søk etter bluetooth-enheten (HC-05) til Arduinoen
+        // Søk etter bluetooth-enheten til Arduinoen
         LocalDevice.getLocalDevice().getDiscoveryAgent().startInquiry(DiscoveryAgent.GIAC, new DiscoveryListener() {
             @Override
             public void deviceDiscovered(RemoteDevice btDevice, DeviceClass cod) {
@@ -42,7 +42,7 @@ public class WarRoomBTSearcher extends Task<Void>{
                     System.out.format("%s (%s)\n", name, btDevice.getBluetoothAddress());
                     if (name.matches("HC.*")) {
                         hc05device = btDevice;
-                        System.out.println("Bluetooth device found!");
+                        controller.log("Tzuno bluetooth device found! Connecting...");
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
