@@ -30,7 +30,7 @@ void SearchAndDestroy::run() {
         //motors->turnRight(300, 120);
         motors->setSpeeds(300, -300);
         delay(300);
-        i = 23;
+        i = 50;
         failCount = failTresh;
     }
     else if (borderRight)
@@ -57,7 +57,7 @@ void SearchAndDestroy::run() {
         {
             // Velg tilfeldig hastighet på hvert hjul innen et intervall
             motors->setSpeeds(
-                abs(sin(i * 0.03 - 3.14 / 2) * maxSpeed),
+                abs(sin(i * 0.03 - 0) * maxSpeed),
                 abs(cos(i * 0.03 + 0) * maxSpeed)
             );
             //motors->setSpeeds(100, 100);
