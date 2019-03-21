@@ -34,6 +34,7 @@
 #include "src/alertpassive/AlertPassive.h"
 #include "src/randommotioncontact/RandomMotionContact.h"
 #include "src/searchanddestroy/SearchAndDestroy.h"
+#include "src/inwardsradar/InwardsRadar.h"
 //=========================================================
 
 
@@ -74,9 +75,11 @@ NewServo servo;
 void setup() {
 	//init servo
 	servo.attach(SERVOPIN);
+  servo.write(90);
 	
 	//strats
-    strat = new SearchAndDestroy(&motors);
+    //strat = new SearchAndDestroy(&motors);
+    strat = new InwardsRadar(&motors, &servo);
     Serial.begin(9600);
     randomSeed(analogRead(0));
 //

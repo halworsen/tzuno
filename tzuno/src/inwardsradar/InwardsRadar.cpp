@@ -8,6 +8,7 @@ InwardsRadar::InwardsRadar(int speed){
 
 InwardsRadar::InwardsRadar(PLab_ZumoMotors *motors, NewServo* servo) : InwardsRadar(400){
 	this->motors = motors;
+	this -> servo = servo;
 }
 
 InwardsRadar::~InwardsRadar() {}
@@ -17,20 +18,22 @@ void InwardsRadar::run() {
 	if(borderLeft){
 		back();
 		turn(1);
-		degrees = 180;
+		degrees = 0;
+		servo->write(degrees);
 	}
 	else if(borderRight){
 		back();
 		turn(-1);
-		degrees = 0;
+		degrees = 180;
+		servo->write(degrees);
 	}
 	else if (0<sonarDistance && sonarDistance<20){
-		turn(degrees-90);
+		turn(90-degrees);
 	}
 	else {
 		motors->setSpeeds(speed,speed);
 	}
-	servo->write(degrees);
+	//servo->write(degrees);
 }
 
 //Kollisjon
@@ -45,7 +48,7 @@ void InwardsRadar::back(){
 }
 
 void InwardsRadar::turn(int dir){
-	if(dir){
+	if(dir>=0){
 		
 		motors->setSpeeds(speed, -speed);
 		delay(200);
@@ -56,4 +59,5 @@ void InwardsRadar::turn(int dir){
 		delay(200);
 		
 	}
+
 }
