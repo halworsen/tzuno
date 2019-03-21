@@ -23,7 +23,7 @@
 #include <ZumoReflectanceSensorArray.h>   //--------------------------
 #include <NewPing.h>
 #include <Wire.h> //Er kanskje relevant for border detection
-#include <NewServo.h>
+#include <Servo.h>
 //=========================================================
 
 
@@ -49,7 +49,7 @@
 #define TRIGGERPIN    1
 #define MAX_DISTANCE  100
 // Servo
-#define SERVOPIN      3
+#define SERVOPIN      6
 //=========================================================
 
 
@@ -73,7 +73,7 @@ Servo servo;
 
 void setup() {
 	//init servo
-	servo.attach(SERVOPIN)
+	servo.attach(SERVOPIN);
 	
 	//strats
     strat = new SearchAndDestroy(&motors);

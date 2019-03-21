@@ -1,6 +1,6 @@
 #include "InwardsRadar.h"
 
-//Konstruktører
+//Konstruktï¿½rer
 InwardsRadar::InwardsRadar(int speed){
 	this->speed = speed;
 	this->degrees = 0;
@@ -9,7 +9,10 @@ InwardsRadar::InwardsRadar(int speed){
 InwardsRadar::InwardsRadar(PLab_ZumoMotors *motors, Servo* servo) : InwardsRadar(400){
 	this->motors = motors;
 }
-//Gjøres i loopen
+
+InwardsRadar::~InwardsRadar() {}
+
+//Gjï¿½res i loopen
 void InwardsRadar::run() {
 	if(borderLeft){
 		back();
@@ -27,7 +30,7 @@ void InwardsRadar::run() {
 	else {
 		motors->setSpeeds(speed,speed);
 	}
-	servo.write(degrees)
+	servo->write(degrees);
 }
 
 //Kollisjon

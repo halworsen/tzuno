@@ -11,7 +11,7 @@ Vandrer på måfå på banen og angriper hvis den ser en fiende
 
 class SearchAndDestroy : public Strategy {
 private:
-    const short tresh = 60; // Sonar attack treshold
+    const short tresh = 40; // Sonar attack treshold
     const short failTresh = 20; // Ticks before aborting attack
     short failCount;
 

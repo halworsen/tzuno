@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 #include <PLab_ZumoMotors.h>
-#include <NewServo.h>
+#include <Servo.h>
 //#include <ZumoShield.h>
 
 /*

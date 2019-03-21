@@ -8,6 +8,8 @@ RandomMotionContact::RandomMotionContact(int speed){
 RandomMotionContact::RandomMotionContact(PLab_ZumoMotors *motors) : RandomMotionContact(400){
 	this->motors = motors;
 }
+
+RandomMotionContact::~RandomMotionContact() {}
 //Gjøres i loopen
 void RandomMotionContact::run() {
 	if(borderLeft){

@@ -8,8 +8,8 @@
 /*
 Strategi "Inwards Radar"
 APPROVED
-Kjører tilfeldig, og unngår å kjøre ut,men har en radar som peker innover
-og kan få zumoen til å svinge
+Kjï¿½rer tilfeldig, og unngï¿½r ï¿½ kjï¿½re ut,men har en radar som peker innover
+og kan fï¿½ zumoen til ï¿½ svinge
 */
 
 class InwardsRadar: public Strategy{
@@ -20,9 +20,9 @@ private:
 public:
 	InwardsRadar(int speed);
 	InwardsRadar(PLab_ZumoMotors* motors, Servo* servo);
-	~RandomMotionContact();
+	~InwardsRadar();
 	
-	//Gjøres i loopen
+	//Gjï¿½res i loopen
 	void run();
 	
 	//Kollisjon

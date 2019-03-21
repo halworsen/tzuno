@@ -25,14 +25,14 @@ void SearchAndDestroy::run() {
     {
         // Snu høyre
         motors->backward(300, 10);
-        motors->
+        motors->turnRight(300, 120);
         failCount = 0;
     }
     else if (borderRight)
     {
         // Snu venstre
         motors->backward(300, 10);
-        motors->turnLeft(300, 90);
+        motors->turnLeft(300, 120);
         failCount = 0;
     }
     // Attack
@@ -52,14 +52,7 @@ void SearchAndDestroy::run() {
                 i--;
             else {
                 this->state = 's';
-                int ls = random(minSpeed, maxSpeed);
-                int rs;
-                motors->setLeftSpeed(ls);
-                if (ls - minSpeed < 50) rs = maxSpeed;
-                else 
-                if (maxSpeed - ls < 50) rs = minSpeed;
-                else rs = random(minSpeed, maxSpeed);
-                motors->setRightSpeed(rs);
+                
                 i = freq;
             }
         }
