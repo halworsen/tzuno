@@ -6,6 +6,7 @@
 
 /*
 Strategi "Aggresiv Radar"
+NOT APPROVED
 -------------------------------------------------
 Snurrer rundt seg selv som en radar, og så snart den sanser et objekt 
 i nærheten angriper den fort. Stopper så snart den mister motstander 
@@ -15,6 +16,7 @@ Ekstra: Få med seg hvilken retning motstander forsvant, og spinn i den
 retningen for å spare tid.
 
 */
+#define ARENA_SIZE 40
 
 class AggressiveRadar : public Strategy {
 private:
@@ -24,8 +26,7 @@ private:
 public:
     // Set speeds to tweek aggression
     AggressiveRadar(int aSpeed, int tSpeed);
-    AggressiveRadar(int speed);
-    AggressiveRadar();
+    AggressiveRadar(PLab_ZumoMotors* motors);
     ~AggressiveRadar();
 
 

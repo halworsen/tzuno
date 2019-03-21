@@ -13,9 +13,13 @@ Gir informasjon knyttet til sonaren
 
 */
 
-const int echoPin;
-const int triggerPin;
-int maxDistance;
+#define echoPin     0
+#define triggerPin  1
+#define maxDistance 25
+
+NewPing* sonar = new NewPing(triggerPin, echoPin, maxDistance);
 
 float distance();
+//Servo styring?
 
+#endif

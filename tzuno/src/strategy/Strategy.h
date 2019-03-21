@@ -2,8 +2,9 @@
 #define _strategy_h_
 
 #include <Arduino.h>
-#include <WString.h>
-#include <Zumo
+#include <PLab_ZumoMotors.h>
+#include <NewServo.h>
+//#include <ZumoShield.h>
 
 /*
 Strategisuperklassen, alle strategier implementerer denne.
@@ -17,7 +18,13 @@ i valg av strategi
 class Strategy {
 protected:
     float sonarDistance;
-    
+    float lateSonarDistance;
+    PLab_ZumoMotors* motors;
+    NewServo* servo;
+	bool borderLeft;
+	bool borderRight;
+    // Debugging
+    char state;
 public:
     // Konstruktør og destruktør gjør ingenting annet enn 
     // å måtte være implementert.
@@ -28,6 +35,13 @@ public:
     virtual void run() = 0;
 
     void setSonarDistance(float d);
+    
+    char getState();
+	
+	void setBorderLeft(bool l);
+	void setBorderRight(bool r);  
+
+    void setServo(int degrees);
 };
 
 #endif
