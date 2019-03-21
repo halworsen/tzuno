@@ -75,6 +75,7 @@ NewServo servo;
 void setup() {
 	//init servo
 	servo.attach(SERVOPIN);
+  servo.write(90);
 	
 	//strats
     //strat = new SearchAndDestroy(&motors);
