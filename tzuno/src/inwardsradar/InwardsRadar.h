@@ -19,7 +19,7 @@ private:
 	int degrees;
 public:
 	InwardsRadar(int speed);
-	InwardsRadar(PLab_ZumoMotors* motors, Servo* servo);
+	InwardsRadar(PLab_ZumoMotors* motors, NewServo* servo);
 	~InwardsRadar();
 	
 	//Gj�res i loopen

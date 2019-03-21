@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 #include <PLab_ZumoMotors.h>
-#include <Servo.h>
+#include <NewServo.h>
 //#include <ZumoShield.h>
 
 /*
@@ -20,7 +20,7 @@ protected:
     float sonarDistance;
     float lateSonarDistance;
     PLab_ZumoMotors* motors;
-    Servo* servo;
+    NewServo* servo;
 	bool borderLeft;
 	bool borderRight;
     // Debugging

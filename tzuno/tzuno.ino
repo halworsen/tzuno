@@ -23,7 +23,7 @@
 #include <ZumoReflectanceSensorArray.h>   //--------------------------
 #include <NewPing.h>
 #include <Wire.h> //Er kanskje relevant for border detection
-#include <Servo.h>
+#include <NewServo.h>
 //=========================================================
 
 
@@ -68,7 +68,7 @@ NewPing sonar(TRIGGERPIN, ECHOPIN, MAX_DISTANCE);
 unsigned int sensor_values[NUM_SENSORS];
 ZumoReflectanceSensorArray sensors(QTR_NO_EMITTER_PIN);
 
-Servo servo;
+NewServo servo;
 //=========================================================
 
 

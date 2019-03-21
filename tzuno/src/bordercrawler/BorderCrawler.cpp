@@ -1,6 +1,6 @@
 #include "BorderCrawler.h"
 
-BorderCrawler::BorderCrawler(PLab_ZumoMotors* motors, Servo* servo) {
+BorderCrawler::BorderCrawler(PLab_ZumoMotors* motors, NewServo* servo) {
     this->motors = motors;
     this->servo = servo;
 }

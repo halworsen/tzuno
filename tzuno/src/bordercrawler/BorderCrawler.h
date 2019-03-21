@@ -18,7 +18,7 @@ class BorderCrawler : public Strategy {
 private:
 
 public:
-    BorderCrawler(PLab_ZumoMotors* motors, Servo* servo);
+    BorderCrawler(PLab_ZumoMotors* motors, NewServo* servo);
     ~BorderCrawler();
 
     void run();
