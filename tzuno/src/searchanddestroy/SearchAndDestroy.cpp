@@ -18,21 +18,29 @@ void SearchAndDestroy::run() {
     {
         // Snu 180 grader
         motors->backward(300, 10);
-        motors->turnRight(300, 180);
+        //motors->turnRight(300, 180);
+        motors->setSpeeds(300, -300);
+        delay(400);
         failCount = failTresh;
     }
     else if (borderLeft)
     {
         // Snu høyre
         motors->backward(300, 10);
-        motors->turnRight(300, 120);
+        //motors->turnRight(300, 120);
+        motors->setSpeeds(300, -300);
+        delay(300);
+        i = 23;
         failCount = failTresh;
     }
     else if (borderRight)
     {
         // Snu venstre
         motors->backward(300, 10);
-        motors->turnLeft(300, 120);
+        //motors->turnLeft(300, 120);
+        motors->setSpeeds(-300, 300);
+        delay(300);
+        i = 0;
         failCount = failTresh;
     }
     // Attack
@@ -49,8 +57,8 @@ void SearchAndDestroy::run() {
         {
             // Velg tilfeldig hastighet på hvert hjul innen et intervall
             motors->setSpeeds(
-                sin(i * 0.06 - 3.14 / 2) * maxSpeed*2/5 + maxSpeed*3/5,
-                cos(i * 0.06 + 0) * maxSpeed*2/5 + maxSpeed*3/5
+                abs(sin(i * 0.03 - 3.14 / 2) * maxSpeed),
+                abs(cos(i * 0.03 + 0) * maxSpeed)
             );
             //motors->setSpeeds(100, 100);
             i++;
