@@ -18,7 +18,7 @@ private:
     const short freq = 25;  // Wandering variation frequency
     short i;
     const unsigned short minSpeed = 10;
-    const unsigned short maxSpeed = 200;
+    const unsigned short maxSpeed = 300;
 
     
 public:
