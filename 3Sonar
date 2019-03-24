@@ -18,15 +18,16 @@ const int echoPin3 = 3;
 const int triggerPin3 = 13;
 
 const int maxDistance = 27;
-const int distThreshold = 2;
+const int distThreshold = 5;
+const int distdiff = 3;
 
 const int motorSpeed = 400;
-const int turnTime = 250;
+const int turnTime = 190; //190
 
 #define REVERSE_SPEED     300 // 0 is stopped, 400 is full speed
 #define TURN_SPEED        400
 #define FORWARD_SPEED     400
-#define REVERSE_DURATION  200 
+#define REVERSE_DURATION  200 // ms
 #define TURN_DURATION     200
 
 NewPing sonar1(triggerPin1, echoPin1, maxDistance);
@@ -38,9 +39,14 @@ Pushbutton button(ZUMO_BUTTON);
 
 
 #define NUM_SENSORS 6
-#define QTR_THRESHOLD  1900 
+#define QTR_THRESHOLD  1500 
 unsigned int sensor_values[NUM_SENSORS];
 ZumoReflectanceSensorArray sensors(QTR_NO_EMITTER_PIN);
+
+int oldD1;
+int oldD2;
+int oldD3;
+  
 
 void setup() {
   Serial.begin(9600);
@@ -97,40 +103,44 @@ void loop() {
   }
   else
   {
-  int oldD1 = distance1;
-  int oldD2 = distance2;
-  int oldD3 = distance3;
-  
-  
   int distance1 = sonarDistance1();
   int distance2 = sonarDistance2();
   int distance3 = sonarDistance3();
+  
+  int oldD1 = distance1;
+  int oldD2 = distance2;
+  int oldD3 = distance3;
+
+  delay(2);
+  
+  distance1 = sonarDistance1();
+  distance2 = sonarDistance2();
+  distance3 = sonarDistance3();
 
   
 
 
-  if(distance1 > distThreshold && sqrt(pow(distance1-oldD1,2)) < 3){
+  if(distance1 > distThreshold && sqrt(pow(distance1-oldD1,2)) < distdiff){
     Serial.println("RIGHT");
     motors.setSpeeds(motorSpeed, -motorSpeed);
     delay(turnTime);
-    motors.setSpeeds(0, 0);
+   
   }
-  else if(distance2 > distThreshold && sqrt(pow(distance2-oldD2,2)) < 3){
+  else if(distance2 > distThreshold && sqrt(pow(distance2-oldD2,2)) < distdiff){
     Serial.println("BACK");
-    motors.setSpeeds(0, 400);
-    delay(400);
     motors.setSpeeds(-motorSpeed, motorSpeed);
-    delay(turnTime);
-    motors.setSpeeds(0, 0);
+    delay(turnTime*2);
+
+    
   }
-  else if(distance3 > distThreshold && sqrt(pow(distance3-oldD3,2)) < 3){
+  else if(distance3 > distThreshold && sqrt(pow(distance3-oldD3,2)) < distdiff){
     Serial.println("LEFT");
     motors.setSpeeds(-motorSpeed, motorSpeed);
     delay(turnTime);
-    motors.setSpeeds(0, 0);
+   
   }
   else{
-    motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
+    motors.setSpeeds(motorSpeed, motorSpeed);
   }
 
   }
