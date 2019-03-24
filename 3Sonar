@@ -17,9 +17,9 @@ const int triggerPin2 = 1;
 const int echoPin3 = 3;
 const int triggerPin3 = 13;
 
-const int maxDistance = 27;
+const int maxDistance = 35;
 const int distThreshold = 5;
-const int distdiff = 3;
+const int distdiff = 4;
 
 const int motorSpeed = 400;
 const int turnTime = 190; //190
