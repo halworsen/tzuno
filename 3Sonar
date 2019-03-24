@@ -1,0 +1,138 @@
+#include <Wire.h>
+#include <ZumoShield.h>
+#include <NewPing.h>
+//#include <NewServo.h>
+#include <Pushbutton.h>
+#include <ZumoMotors.h>
+
+
+
+
+const int echoPin1 = 0;
+const int triggerPin1 = 6;
+
+const int echoPin2 = 2;
+const int triggerPin2 = 1;
+
+const int echoPin3 = 3;
+const int triggerPin3 = 13;
+
+const int maxDistance = 27;
+const int distThreshold = 2;
+
+const int motorSpeed = 400;
+const int turnTime = 250;
+
+#define REVERSE_SPEED     300 // 0 is stopped, 400 is full speed
+#define TURN_SPEED        400
+#define FORWARD_SPEED     400
+#define REVERSE_DURATION  200 
+#define TURN_DURATION     200
+
+NewPing sonar1(triggerPin1, echoPin1, maxDistance);
+NewPing sonar2(triggerPin2, echoPin2, maxDistance);
+NewPing sonar3(triggerPin3, echoPin3, maxDistance);
+
+ZumoMotors motors;
+Pushbutton button(ZUMO_BUTTON); 
+
+
+#define NUM_SENSORS 6
+#define QTR_THRESHOLD  1900 
+unsigned int sensor_values[NUM_SENSORS];
+ZumoReflectanceSensorArray sensors(QTR_NO_EMITTER_PIN);
+
+void setup() {
+  Serial.begin(9600);
+  button.waitForButton();
+  delay(1000);
+}
+
+float sonarDistance1() {
+  // Gjør ett ping, og beregn avstanden
+  unsigned int time = sonar1.ping();
+  float distance = sonar1.convert_cm(time);
+  Serial.println(distance);
+  return distance;
+}
+
+float sonarDistance2() {
+  // Gjør ett ping, og beregn avstanden
+  unsigned int time = sonar2.ping();
+  float distance = sonar2.convert_cm(time);
+  Serial.println(distance);
+  return distance;
+}
+
+float sonarDistance3() {
+  // Gjør ett ping, og beregn avstanden
+  unsigned int time = sonar3.ping();
+  float distance = sonar3.convert_cm(time);
+  Serial.println(distance);
+  return distance;
+}
+
+
+void loop() {
+
+    sensors.read(sensor_values);
+
+  if (sensor_values[0] < QTR_THRESHOLD)
+  {
+    // if leftmost sensor detects line, reverse and turn to the right
+    motors.setSpeeds(-REVERSE_SPEED, -REVERSE_SPEED);
+    delay(REVERSE_DURATION);
+    motors.setSpeeds(TURN_SPEED, -TURN_SPEED);
+    delay(TURN_DURATION);
+    motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
+  }
+  else if (sensor_values[5] < QTR_THRESHOLD)
+  {
+    // if rightmost sensor detects line, reverse and turn to the left
+    motors.setSpeeds(-REVERSE_SPEED, -REVERSE_SPEED);
+    delay(REVERSE_DURATION);
+    motors.setSpeeds(-TURN_SPEED, TURN_SPEED);
+    delay(TURN_DURATION);
+    motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
+  }
+  else
+  {
+  int oldD1 = distance1;
+  int oldD2 = distance2;
+  int oldD3 = distance3;
+  
+  
+  int distance1 = sonarDistance1();
+  int distance2 = sonarDistance2();
+  int distance3 = sonarDistance3();
+
+  
+
+
+  if(distance1 > distThreshold && sqrt(pow(distance1-oldD1,2)) < 3){
+    Serial.println("RIGHT");
+    motors.setSpeeds(motorSpeed, -motorSpeed);
+    delay(turnTime);
+    motors.setSpeeds(0, 0);
+  }
+  else if(distance2 > distThreshold && sqrt(pow(distance2-oldD2,2)) < 3){
+    Serial.println("BACK");
+    motors.setSpeeds(0, 400);
+    delay(400);
+    motors.setSpeeds(-motorSpeed, motorSpeed);
+    delay(turnTime);
+    motors.setSpeeds(0, 0);
+  }
+  else if(distance3 > distThreshold && sqrt(pow(distance3-oldD3,2)) < 3){
+    Serial.println("LEFT");
+    motors.setSpeeds(-motorSpeed, motorSpeed);
+    delay(turnTime);
+    motors.setSpeeds(0, 0);
+  }
+  else{
+    motors.setSpeeds(FORWARD_SPEED, FORWARD_SPEED);
+  }
+
+  }
+
+}
