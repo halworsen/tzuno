@@ -46,9 +46,16 @@
 #define QTR_THRESHOLD  1900 // microseconds
 #define NUM_SENSORS    6    
 // Sonar
-#define ECHOPIN       2 
-#define TRIGGERPIN    1
-#define MAX_DISTANCE  100
+const int R_ECHOPIN = 0;
+const int R_TRIGGERPIN = 6;
+
+const int B_ECHOPIN = 2;
+const int B_TRIGGERPIN = 1;
+
+const int L_ECHOPIN = 3;
+const int L_TRIGGERPIN = 13;
+
+#define MAX_DISTANCE  35
 // Servo
 #define SERVOPIN      6
 //=========================================================
@@ -63,12 +70,23 @@ PLab_ZumoMotors motors;
 
 Pushbutton button(ZUMO_BUTTON);
 
-NewPing sonar(TRIGGERPIN, ECHOPIN, MAX_DISTANCE);
+NewPing r_sonar(R_TRIGGERPIN, R_ECHOPIN, MAX_DISTANCE);
+NewPing b_sonar(B_TRIGGERPIN, B_ECHOPIN, MAX_DISTANCE);
+NewPing l_sonar(L_TRIGGERPIN, L_ECHOPIN, MAX_DISTANCE);
 
 unsigned int sensor_values[NUM_SENSORS];
 ZumoReflectanceSensorArray sensors(QTR_NO_EMITTER_PIN);
 
 NewServo servo;
+//=================HJELPEFUNKSJONER========================
+float sonarDistance(NewPing* sonar) {
+  // Gjør ett ping, og beregn avstanden
+  unsigned int time = sonar->ping();
+  float distance = sonar->convert_cm(time);
+  //Serial.println(distance);
+  return distance;
+}
+
 //=========================================================
 
 
@@ -117,10 +135,9 @@ void loop() {
    
     // Sonarmåling
     {
-        unsigned int t = sonar.ping();
-        float dist = sonar.convert_cm(t);
-        strat->setSonarDistance(dist);
-        Serial.println(dist);
+		strat->setSonarDistanceLeft(sonarDistance(&l_sonar));
+		strat->setSonarDistanceRight(sonarDistance(&r_sonar));
+		strat->setSonarDistanceBack(sonarDistance(&b_sonar));
     }
 
     // Strategiens loop

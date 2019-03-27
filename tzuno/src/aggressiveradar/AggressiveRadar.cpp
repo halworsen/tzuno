@@ -1,4 +1,5 @@
 #include "AggressiveRadar.h"
+float lastSonarDistance=0;
 
 
 // Konstruktører
@@ -22,7 +23,7 @@ void AggressiveRadar::setTurnSpeed(int s) {
 void AggressiveRadar::run() {
     // While enemy not found, spin, use sonar
     if (sonarDistance > ARENA_SIZE &&
-      lateSonarDistance > ARENA_SIZE)
+      lastSonarDistance > ARENA_SIZE)
     {
       motors->setSpeeds(turnSpeed, -turnSpeed);
     }
@@ -38,4 +39,6 @@ void AggressiveRadar::run() {
     {
       motors->setSpeeds(attackSpeed, attackSpeed);
     }
+	lastSonarDistance = sonarDistance;
+
 }

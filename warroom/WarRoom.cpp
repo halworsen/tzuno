@@ -23,7 +23,7 @@ String WarRoom::getBufferedMsg() {
 }
 
 void WarRoom::sendMsg(String msg) {
-	bt.println("<" + msg + ">")
+	bt.println("<" + msg + ">");
 }
 
 void WarRoom::setup() {

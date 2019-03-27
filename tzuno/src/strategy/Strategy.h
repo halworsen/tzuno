@@ -17,8 +17,13 @@ i valg av strategi
 
 class Strategy {
 protected:
-    float sonarDistance;
-    float lateSonarDistance;
+	float sonarDistance=0;//Ikke i bruk
+    float sonarDistanceLeft;
+	float sonarDistanceRight;
+	float sonarDistanceBack;
+    float lastSonarDistanceLeft;
+	float lastSonarDistanceRight;
+	float lastSonarDistanceBack;
     PLab_ZumoMotors* motors;
     NewServo* servo;
 	bool borderLeft;
@@ -34,7 +39,12 @@ public:
     // Virtuelle funksjoner må implementeres av alle strategiklasser
     virtual void run() = 0;
 
-    void setSonarDistance(float d);
+    void setSonarDistanceLeft(float d);
+	void setSonarDistanceRight(float d);
+
+	void setSonarDistanceBack(float d);
+	void setSonarDistance(float d);
+
     
     char getState();
 	
