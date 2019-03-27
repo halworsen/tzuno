@@ -60,6 +60,10 @@ const int B_TRIGGERPIN = 1;
 const int L_ECHOPIN = 3;
 const int L_TRIGGERPIN = 13;
 
+// Bluetooth serial
+#define RX_PIN 4
+#define TX_PIN 5
+
 #define MAX_DISTANCE  35
 // Servo
 #define SERVOPIN      6
@@ -83,6 +87,8 @@ unsigned int sensor_values[NUM_SENSORS];
 ZumoReflectanceSensorArray sensors(QTR_NO_EMITTER_PIN);
 
 NewServo servo;
+
+WarRoom warroom(RX_PIN, TX_PIN);
 //=================HJELPEFUNKSJONER========================
 float sonarDistance(NewPing* sonar) {
   // Gjør ett ping, og beregn avstanden
@@ -96,6 +102,9 @@ float sonarDistance(NewPing* sonar) {
 
 
 void setup() {
+  // Bluetooth
+  warroom.setup();
+  
 	//init servo
 	servo.attach(SERVOPIN);
   servo.write(90);
@@ -123,11 +132,17 @@ void setup() {
 //      strat = new RandomMotionContact(&motors);
 //    }
     
-    button.waitForButton();
+    //button.waitForButton();
+    Serial.println("Setup ferdig");
 }
 
 
 void loop() {
+    // Les eventuelle bluetooth-meldinger
+    // Det er viktig at denne kjøres hver loop
+    // Ellers kan vi miste bytes fra innkommende meldinger
+    warroom.loop();
+  
     // Infrarød sjekk på bane
     // Borderdetection
   	{
@@ -147,5 +162,5 @@ void loop() {
 
     // Strategiens loop
     strat->run();
-    Serial.println(strat->getState());
+    //Serial.println(strat->getState());
 }

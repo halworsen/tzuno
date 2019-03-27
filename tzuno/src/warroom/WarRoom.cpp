@@ -11,24 +11,27 @@ WarRoom::~WarRoom() {
 }
 
 void WarRoom::setup() {
-	this->bt = new SoftwareSerial(rxPin, txPin);
+	bt = new SoftwareSerial(rxPin, txPin);
+	bt->begin(9600);
 }
 
 void WarRoom::loop() {
-	if(bt->available()) {
-		char data = bt->read();
+	if(!bt->available()) {
+		return;
+	}
 
-		// Message is starting/ending
-		if(data == '<') {
-		  bufferedMsg = "";
-		} else if(data == '>') {
-		  // Send an acknowledgement back
-		  sendMsg("OK: " + bufferedMsg);
+	char data = bt->read();
 
-		  msgReceived(bufferedMsg);
-		} else{
-		  bufferedMsg += data;
-		}
+	// Messages start with < and end with >. Anything in between is the actual message
+	if(data == '<') {
+		bufferedMsg = "";
+	} else if(data == '>') {
+		// Send an acknowledgement back
+		sendMsg("OK: " + bufferedMsg);
+
+		msgReceived(bufferedMsg);
+	} else {
+		bufferedMsg += data;
 	}
 }
 
