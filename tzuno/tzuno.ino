@@ -89,6 +89,7 @@ ZumoReflectanceSensorArray sensors(QTR_NO_EMITTER_PIN);
 NewServo servo;
 
 WarRoom warroom(RX_PIN, TX_PIN);
+boolean standbyMode = true;
 //=================HJELPEFUNKSJONER========================
 float sonarDistance(NewPing* sonar) {
   // Gjør ett ping, og beregn avstanden
@@ -100,10 +101,27 @@ float sonarDistance(NewPing* sonar) {
 
 //=========================================================
 
+//===============BLUETOOTH MELDINGSHÅNDTERING==============
+
+void handleMsg(String msg) {
+  if(msg == "stratsad") {
+    strat = new SearchAndDestroy(&motors);
+    warroom.sendMsg("Strategi valgt: Search and Destroy");
+  } else if(msg == "stratinward") {
+    strat = new InwardsRadar(&motors, &servo);
+    warroom.sendMsg("Strategi valgt: Inwards Radar");
+  } else if(msg == "stratrmc") {
+    strat = new InwardsRadar(&motors);
+    warroom.sendMsg("Strategi valgt: Random Motion Contact");
+  }
+}
+
+//=========================================================
 
 void setup() {
   // Bluetooth
   warroom.setup();
+  warroom.setCallback(&handleMsg);
   
 	//init servo
 	servo.attach(SERVOPIN);
@@ -134,14 +152,29 @@ void setup() {
     
     //button.waitForButton();
     Serial.println("Setup ferdig");
+    warroom.sendMsg("Tzuno er klar!");
 }
 
-
 void loop() {
-    // Les eventuelle bluetooth-meldinger
-    // Det er viktig at denne kjøres hver loop
+    // Start når knappen trykkes inn
+    // Bluetooth kan bare brukes i standbymodus
+    if(button.isPressed())
+    {
+      button.waitForRelease();
+      standbyMode = !standbyMode;
+    }
+  
+    // Les eventuelle bluetooth-meldinger. Det er viktig at denne kjøres hver loop!
     // Ellers kan vi miste bytes fra innkommende meldinger
-    warroom.loop();
+    // Timing er generelt sett kritisk for bluetooth-funksjonalitet
+    // Dette er også av grunnen til at vi bare tillater bruk av bluetooth før knappen trykkes inn. Resten av koden roter til timingen
+    if(standbyMode)
+    {
+      warroom.loop();
+
+      // Ikke kjør strategi-relatert kode før knappen trykkes inn
+      return;
+    }
   
     // Infrarød sjekk på bane
     // Borderdetection

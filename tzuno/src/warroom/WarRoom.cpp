@@ -40,9 +40,20 @@ void WarRoom::sendMsg(String msg) {
 }
 
 void WarRoom::msgReceived(String msg) {
-	Serial.println("MSG received: " + msg);
+	if(hasCallback()) {
+		callback(msg);
+	}
+}
+
+void WarRoom::setCallback(CallbackFunction func) {
+	callback = func;
+}
+
+bool WarRoom::hasCallback() {
+	return (callback != nullptr);
 }
 
 String WarRoom::getBufferedMsg() {
 	return bufferedMsg;
 }
+
