@@ -62,8 +62,8 @@ const int L_ECHOPIN = 3;
 const int L_TRIGGERPIN = 13;
 
 // Bluetooth serial
-#define RX_PIN 4
-#define TX_PIN 5
+#define RX_PIN A4
+#define TX_PIN A5
 
 #define MAX_DISTANCE  35
 // Servo
@@ -111,7 +111,7 @@ void handleMsg(String msg) {
     strat = new SearchAndDestroy(&motors);
     warroom.sendMsg("Strategi valgt: Search and Destroy");
   } else if(msg == "stratinward") {
-    strat = new InwardsRadar(&motors, &servo);
+    //strat = new InwardsRadar(&motors, &servo);
     warroom.sendMsg("Strategi valgt: Inwards Radar");
   } else if(msg == "stratrmc") {
     strat = new InwardsRadar(&motors);
@@ -136,23 +136,7 @@ void setup() {
     //strat = new InwardsRadar(&motors, &servo);
     Serial.begin(9600);
     randomSeed(analogRead(0));
-//
-//    Serial.print(F(
-//      "Angi strategi:\n" +
-//      "0: Search and Destroy\n" +
-//      "1: Random Motion Contact\n"
-//      );
-//
-//    char c = Serial.read();
-//
-//    if (c = '0')
-//    {
-//      strat = new SearchAndDestroy(&motors);
-//    }
-//    else if (c = '1')
-//    {
-//      strat = new RandomMotionContact(&motors);
-//    }
+
     
     //button.waitForButton();
     Serial.println("Setup ferdig");

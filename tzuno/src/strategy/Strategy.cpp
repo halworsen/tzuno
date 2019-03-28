@@ -9,22 +9,22 @@ char Strategy::getState() { return state; }
 
 
 void Strategy::setSonarDistanceLeft(float d) {
-    lastSonarDistanceLeft = sonarDistanceLeft;
+    this->lastSonarDistanceLeft = sonarDistanceLeft;
 	delay(2);
-    sonarDistanceLeft = d > 0 ? d : 1000; 
+    this->sonarDistanceLeft = d; 
 }
 void Strategy::setSonarDistanceRight(float d) {
-    lastSonarDistanceRight = sonarDistanceRight;
+    this->lastSonarDistanceRight = sonarDistanceRight;
 	delay(2);
-    sonarDistanceRight = d > 0 ? d : 1000; 
+    this->sonarDistanceRight = d; 
 }
 void Strategy::setSonarDistanceBack(float d) {
-    lastSonarDistanceBack = sonarDistanceBack;
+    this->lastSonarDistanceBack = sonarDistanceBack;
 	delay(2);
-    sonarDistanceBack = d > 0 ? d : 1000; 
+    this->sonarDistanceBack = d; 
 }
 void Strategy::setSonarDistance(float d) {
-    sonarDistance = d > 0 ? d : 1000; 
+    this->sonarDistance = d; 
 }
 void Strategy::setBorderLeft(bool l) { this->borderLeft = l; }
 	
