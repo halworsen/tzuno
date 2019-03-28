@@ -92,7 +92,7 @@ ZumoReflectanceSensorArray sensors(QTR_NO_EMITTER_PIN);
 
 WarRoom warroom(RX_PIN, TX_PIN);
 boolean standbyMode = true;
-
+unsigned int startTime = 0;
 //=================HJELPEFUNKSJONER========================
 float sonarDistance(NewPing* sonar) {
   // Gjør ett ping, og beregn avstanden
@@ -107,7 +107,10 @@ float sonarDistance(NewPing* sonar) {
 //===============BLUETOOTH MELDINGSHÅNDTERING==============
 
 void handleMsg(String msg) {
-  if(msg == "stratsad") {
+  if(msg == "start") {
+    startTime = millis() + 1;
+    warroom.sendMsg("Starter om 1s!");
+  } else if(msg == "stratsad") {
     strat = new SearchAndDestroy(&motors);
     warroom.sendMsg("Strategi valgt: Search and Destroy");
   } else if(msg == "stratinward") {
@@ -132,13 +135,9 @@ void setup() {
 	
 	//strats
     strat = new TripleSonar(&motors);
-    //strat = new SearchAndDestroy(&motors);
-    //strat = new InwardsRadar(&motors, &servo);
     Serial.begin(9600);
     randomSeed(analogRead(0));
 
-    
-    //button.waitForButton();
     Serial.println("Setup ferdig");
     warroom.sendMsg("Tzuno er klar!");
 }
@@ -150,6 +149,12 @@ void loop() {
     {
       button.waitForRelease();
       standbyMode = !standbyMode;
+    }
+
+    // Denne utløses av en bluetooth-kommando
+    if(startTime != 0 && millis() > startTime)
+    {
+      standbyMode = false;
     }
   
     // Les eventuelle bluetooth-meldinger. Det er viktig at denne kjøres hver loop!
@@ -171,14 +176,14 @@ void loop() {
     		bool r =sensor_values[5] < QTR_THRESHOLD;
     		bool l =sensor_values[0] < QTR_THRESHOLD;
     		strat->setBorderRight(r);
-    		strat->setBorderLeft(l);
+        strat->setBorderLeft(l);
   	}
    
     // Sonarmåling
     {
-		strat->setSonarDistanceLeft(sonarDistance(&l_sonar));
-		strat->setSonarDistanceRight(sonarDistance(&r_sonar));
-		strat->setSonarDistanceBack(sonarDistance(&b_sonar));
+		    strat->setSonarDistanceLeft(sonarDistance(&l_sonar));
+		    strat->setSonarDistanceRight(sonarDistance(&r_sonar));
+		    strat->setSonarDistanceBack(sonarDistance(&b_sonar));
     }
 
     // Strategiens loop
