@@ -90,6 +90,7 @@ NewServo servo;
 
 WarRoom warroom(RX_PIN, TX_PIN);
 boolean standbyMode = true;
+unsigned int startTime = 0;
 //=================HJELPEFUNKSJONER========================
 float sonarDistance(NewPing* sonar) {
   // Gjør ett ping, og beregn avstanden
@@ -104,7 +105,10 @@ float sonarDistance(NewPing* sonar) {
 //===============BLUETOOTH MELDINGSHÅNDTERING==============
 
 void handleMsg(String msg) {
-  if(msg == "stratsad") {
+  if(msg == "start") {
+    startTime = millis() + 1;
+    warroom.sendMsg("Starter om 1s!");
+  } else if(msg == "stratsad") {
     strat = new SearchAndDestroy(&motors);
     warroom.sendMsg("Strategi valgt: Search and Destroy");
   } else if(msg == "stratinward") {
@@ -128,31 +132,12 @@ void setup() {
   servo.write(90);
 	
 	//strats
-    strat = new SearchAndDestroy(&motors);
-    //strat = new InwardsRadar(&motors, &servo);
-    Serial.begin(9600);
-    randomSeed(analogRead(0));
-//
-//    Serial.print(F(
-//      "Angi strategi:\n" +
-//      "0: Search and Destroy\n" +
-//      "1: Random Motion Contact\n"
-//      );
-//
-//    char c = Serial.read();
-//
-//    if (c = '0')
-//    {
-//      strat = new SearchAndDestroy(&motors);
-//    }
-//    else if (c = '1')
-//    {
-//      strat = new RandomMotionContact(&motors);
-//    }
-    
-    //button.waitForButton();
-    Serial.println("Setup ferdig");
-    warroom.sendMsg("Tzuno er klar!");
+  strat = new SearchAndDestroy(&motors);
+  Serial.begin(9600);
+  randomSeed(analogRead(0));
+  
+  Serial.println("Setup ferdig");
+  warroom.sendMsg("Tzuno er klar!");
 }
 
 void loop() {
@@ -162,6 +147,12 @@ void loop() {
     {
       button.waitForRelease();
       standbyMode = !standbyMode;
+    }
+
+    // Denne utløses av en bluetooth-kommando
+    if(startTime != 0 && millis() > startTime)
+    {
+      standbyMode = false;
     }
   
     // Les eventuelle bluetooth-meldinger. Det er viktig at denne kjøres hver loop!
@@ -183,14 +174,14 @@ void loop() {
     		bool r =sensor_values[5] < QTR_THRESHOLD;
     		bool l =sensor_values[0] < QTR_THRESHOLD;
     		strat->setBorderRight(r);
-    		strat->setBorderLeft(l);
+        strat->setBorderLeft(l);
   	}
    
     // Sonarmåling
     {
-		strat->setSonarDistanceLeft(sonarDistance(&l_sonar));
-		strat->setSonarDistanceRight(sonarDistance(&r_sonar));
-		strat->setSonarDistanceBack(sonarDistance(&b_sonar));
+		    strat->setSonarDistanceLeft(sonarDistance(&l_sonar));
+		    strat->setSonarDistanceRight(sonarDistance(&r_sonar));
+		    strat->setSonarDistanceBack(sonarDistance(&b_sonar));
     }
 
     // Strategiens loop
