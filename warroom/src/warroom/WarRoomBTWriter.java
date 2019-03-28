@@ -61,10 +61,8 @@ public class WarRoomBTWriter extends Task<Void> {
 			}
 
 			sendMsg = false;
-			
-			btOS.write("<".getBytes());
-			btOS.write(queuedMsg.getBytes());
-			btOS.write(">".getBytes());
+
+			btOS.write(("<" + queuedMsg + ">").getBytes());
 		}
 	}
 

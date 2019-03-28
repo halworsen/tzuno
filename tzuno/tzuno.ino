@@ -38,6 +38,11 @@
 #include "src/triplesonar/TripleSonar.h"
 //=========================================================
 
+//=========================================================
+// Bluetooth
+//---------------------------------------------------------
+#include "src/warroom/WarRoom.h"
+//=========================================================
 
 //=========================================================
 // Defines
@@ -55,6 +60,10 @@ const int B_TRIGGERPIN = 1;
 
 const int L_ECHOPIN = 3;
 const int L_TRIGGERPIN = 13;
+
+// Bluetooth serial
+#define RX_PIN 4
+#define TX_PIN 5
 
 #define MAX_DISTANCE  35
 // Servo
@@ -78,7 +87,12 @@ NewPing l_sonar(L_TRIGGERPIN, L_ECHOPIN, MAX_DISTANCE);
 unsigned int sensor_values[NUM_SENSORS];
 ZumoReflectanceSensorArray sensors(QTR_NO_EMITTER_PIN);
 
+
 //NewServo servo;
+
+WarRoom warroom(RX_PIN, TX_PIN);
+boolean standbyMode = true;
+
 //=================HJELPEFUNKSJONER========================
 float sonarDistance(NewPing* sonar) {
   // Gjør ett ping, og beregn avstanden
@@ -90,8 +104,28 @@ float sonarDistance(NewPing* sonar) {
 
 //=========================================================
 
+//===============BLUETOOTH MELDINGSHÅNDTERING==============
+
+void handleMsg(String msg) {
+  if(msg == "stratsad") {
+    strat = new SearchAndDestroy(&motors);
+    warroom.sendMsg("Strategi valgt: Search and Destroy");
+  } else if(msg == "stratinward") {
+    strat = new InwardsRadar(&motors, &servo);
+    warroom.sendMsg("Strategi valgt: Inwards Radar");
+  } else if(msg == "stratrmc") {
+    strat = new InwardsRadar(&motors);
+    warroom.sendMsg("Strategi valgt: Random Motion Contact");
+  }
+}
+
+//=========================================================
 
 void setup() {
+  // Bluetooth
+  warroom.setup();
+  warroom.setCallback(&handleMsg);
+  
 	//init servo
 	//servo.attach(SERVOPIN);
   //servo.write(90);
@@ -120,11 +154,32 @@ void setup() {
 //      strat = new RandomMotionContact(&motors);
 //    }
     
-    button.waitForButton();
+    //button.waitForButton();
+    Serial.println("Setup ferdig");
+    warroom.sendMsg("Tzuno er klar!");
 }
 
-
 void loop() {
+    // Start når knappen trykkes inn
+    // Bluetooth kan bare brukes i standbymodus
+    if(button.isPressed())
+    {
+      button.waitForRelease();
+      standbyMode = !standbyMode;
+    }
+  
+    // Les eventuelle bluetooth-meldinger. Det er viktig at denne kjøres hver loop!
+    // Ellers kan vi miste bytes fra innkommende meldinger
+    // Timing er generelt sett kritisk for bluetooth-funksjonalitet
+    // Dette er også av grunnen til at vi bare tillater bruk av bluetooth før knappen trykkes inn. Resten av koden roter til timingen
+    if(standbyMode)
+    {
+      warroom.loop();
+
+      // Ikke kjør strategi-relatert kode før knappen trykkes inn
+      return;
+    }
+  
     // Infrarød sjekk på bane
     // Borderdetection
   	{

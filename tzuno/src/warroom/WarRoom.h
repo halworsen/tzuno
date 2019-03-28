@@ -6,28 +6,33 @@
 
 class WarRoom {
 
+	// En funksjon med returtype void og en String-parameter
+	typedef void (*CallbackFunction)(String);
+
 private:
 	int rxPin;
 	int txPin;
 
-	SoftwareSerial bt;
+	CallbackFunction callback;
+
+	SoftwareSerial* bt;
 	String bufferedMsg;
 
-	void*(String msg) callback;
-	bool hasCallback();
+	void msgReceived(String msg);
 
 public:
 	WarRoom(int rxPin, int txPin);
 	~WarRoom();
 
-	void setCallback(void*(String msg) func);
-
 	void setup();
 	void loop();
 	void sendMsg(String msg);
 
-	String getBufferedMessage();
+	void setCallback(CallbackFunction func);
+	bool hasCallback();
 
-}
+	String getBufferedMsg();
+
+};
 
 #endif
