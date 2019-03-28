@@ -62,10 +62,10 @@ const int L_ECHOPIN = 3;
 const int L_TRIGGERPIN = 13;
 
 // Bluetooth serial
-#define RX_PIN 4
-#define TX_PIN 5
+#define RX_PIN A4
+#define TX_PIN A5
 
-#define MAX_DISTANCE  35
+#define MAX_DISTANCE  30
 // Servo
 //#define SERVOPIN      6//Kan ikke brukes med 3 sonarer
 //=========================================================
@@ -114,7 +114,7 @@ void handleMsg(String msg) {
     strat = new SearchAndDestroy(&motors);
     warroom.sendMsg("Strategi valgt: Search and Destroy");
   } else if(msg == "stratinward") {
-    strat = new InwardsRadar(&motors, &servo);
+    //strat = new InwardsRadar(&motors, &servo);
     warroom.sendMsg("Strategi valgt: Inwards Radar");
   } else if(msg == "stratrmc") {
     strat = new InwardsRadar(&motors);
@@ -137,6 +137,7 @@ void setup() {
     strat = new TripleSonar(&motors);
     Serial.begin(9600);
     randomSeed(analogRead(0));
+
     Serial.println("Setup ferdig");
     warroom.sendMsg("Tzuno er klar!");
 }

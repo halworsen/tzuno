@@ -1,5 +1,7 @@
 #include "Strategy.h"
 
+#define safewait 2
+
 Strategy::Strategy() {}
 
 Strategy::~Strategy() {}
@@ -9,22 +11,22 @@ char Strategy::getState() { return state; }
 
 
 void Strategy::setSonarDistanceLeft(float d) {
-    lastSonarDistanceLeft = sonarDistanceLeft;
-	delay(2);
-    sonarDistanceLeft = d > 0 ? d : 1000; 
+    this->lastSonarDistanceLeft = sonarDistanceLeft;
+	delay(safewait);
+    this->sonarDistanceLeft = d; 
 }
 void Strategy::setSonarDistanceRight(float d) {
-    lastSonarDistanceRight = sonarDistanceRight;
-	delay(2);
-    sonarDistanceRight = d > 0 ? d : 1000; 
+    this->lastSonarDistanceRight = sonarDistanceRight;
+	delay(safewait);
+    this->sonarDistanceRight = d; 
 }
 void Strategy::setSonarDistanceBack(float d) {
-    lastSonarDistanceBack = sonarDistanceBack;
-	delay(2);
-    sonarDistanceBack = d > 0 ? d : 1000; 
+    this->lastSonarDistanceBack = sonarDistanceBack;
+	delay(safewait);
+    this->sonarDistanceBack = d; 
 }
 void Strategy::setSonarDistance(float d) {
-    sonarDistance = d > 0 ? d : 1000; 
+    this->sonarDistance = d; 
 }
 void Strategy::setBorderLeft(bool l) { this->borderLeft = l; }
 	
