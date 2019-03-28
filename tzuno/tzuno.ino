@@ -65,7 +65,7 @@ const int L_TRIGGERPIN = 13;
 #define RX_PIN A4
 #define TX_PIN A5
 
-#define MAX_DISTANCE  35
+#define MAX_DISTANCE  30
 // Servo
 //#define SERVOPIN      6//Kan ikke brukes med 3 sonarer
 //=========================================================

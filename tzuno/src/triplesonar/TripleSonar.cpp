@@ -1,8 +1,9 @@
 #include "TripleSonar.h"
 
 #define DIST_DIFF 4
-#define DIST_THRESHOLD 5
-#define TURN_TIME 200
+#define DIST_THRESHOLD 4
+#define TURN_TIME 230
+#define TURN_SPEED 350
 
 //Konstrukt�rer
 TripleSonar::TripleSonar(int speed){
@@ -70,12 +71,12 @@ void TripleSonar::back(){
 void TripleSonar::turn(int dir){
 	if(dir>=0){
 		
-		motors->setSpeeds(speed, -speed);
+		motors->setSpeeds(TURN_SPEED, -TURN_SPEED);
 		delay(TURN_TIME);
 		
 	}
 	else{
-		motors->setSpeeds(-speed, speed);
+		motors->setSpeeds(-TURN_SPEED, TURN_SPEED);
 		delay(TURN_TIME);
 		
 	}
