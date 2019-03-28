@@ -1,7 +1,7 @@
 #include "TripleSonar.h"
 
 #define DIST_DIFF 4
-#define DIST_THRESHOLD 35
+#define DIST_THRESHOLD 5
 #define TURN_TIME 200
 
 //Konstrukt�rer
@@ -26,25 +26,27 @@ void TripleSonar::run() {
 		turn(-1);
 
 	}
-	  if(sonarDistanceRight > DIST_THRESHOLD && sqrt(pow(sonarDistanceRight-lastSonarDistanceRight,2)) < DIST_DIFF){
-    Serial.println("RIGHT");
-    turn(1);
-   
-  }
-  else if(sonarDistanceBack > DIST_THRESHOLD && sqrt(pow(sonarDistanceBack-lastSonarDistanceBack,2)) < DIST_DIFF){
-    Serial.println("BACK");
-	turn(1);
-	turn(1);
+	else{
+		if(sonarDistanceRight > DIST_THRESHOLD && sqrt(pow(sonarDistanceRight-lastSonarDistanceRight,2)) < DIST_DIFF){
+			Serial.println("RIGHT");
+			turn(1);
 
-    
-  }
-  else if(sonarDistanceLeft > DIST_THRESHOLD && sqrt(pow(sonarDistanceLeft-lastSonarDistanceLeft,2)) < DIST_DIFF){
-    Serial.println("LEFT");
-	turn(-1);
-   
-	}
-	else {
-		motors->setSpeeds(speed,speed);
+		}
+		else if(sonarDistanceBack > DIST_THRESHOLD && sqrt(pow(sonarDistanceBack-lastSonarDistanceBack,2)) < DIST_DIFF){
+			Serial.println("BACK");
+			turn(1);
+			turn(1);
+
+
+		}
+		else if(sonarDistanceLeft > DIST_THRESHOLD && sqrt(pow(sonarDistanceLeft-lastSonarDistanceLeft,2)) < DIST_DIFF){
+			Serial.println("LEFT");
+			turn(-1);
+
+		}
+		else {
+			motors->setSpeeds(speed,speed);
+		}
 	}
 }
 

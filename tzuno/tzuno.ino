@@ -35,6 +35,7 @@
 #include "src/randommotioncontact/RandomMotionContact.h"
 #include "src/searchanddestroy/SearchAndDestroy.h"
 #include "src/inwardsradar/InwardsRadar.h"
+#include "src/triplesonar/TripleSonar.h"
 //=========================================================
 
 //=========================================================
@@ -66,7 +67,7 @@ const int L_TRIGGERPIN = 13;
 
 #define MAX_DISTANCE  35
 // Servo
-#define SERVOPIN      6
+//#define SERVOPIN      6//Kan ikke brukes med 3 sonarer
 //=========================================================
 
 
@@ -86,7 +87,8 @@ NewPing l_sonar(L_TRIGGERPIN, L_ECHOPIN, MAX_DISTANCE);
 unsigned int sensor_values[NUM_SENSORS];
 ZumoReflectanceSensorArray sensors(QTR_NO_EMITTER_PIN);
 
-NewServo servo;
+
+//NewServo servo;
 
 WarRoom warroom(RX_PIN, TX_PIN);
 boolean standbyMode = true;
@@ -96,7 +98,7 @@ float sonarDistance(NewPing* sonar) {
   // Gjør ett ping, og beregn avstanden
   unsigned int time = sonar->ping();
   float distance = sonar->convert_cm(time);
-  //Serial.println(distance);
+  Serial.println(distance);
   return distance;
 }
 
@@ -128,16 +130,15 @@ void setup() {
   warroom.setCallback(&handleMsg);
   
 	//init servo
-	servo.attach(SERVOPIN);
-  servo.write(90);
+	//servo.attach(SERVOPIN);
+  //servo.write(90);
 	
 	//strats
-  strat = new SearchAndDestroy(&motors);
-  Serial.begin(9600);
-  randomSeed(analogRead(0));
-  
-  Serial.println("Setup ferdig");
-  warroom.sendMsg("Tzuno er klar!");
+    strat = new TripleSonar(&motors);
+    Serial.begin(9600);
+    randomSeed(analogRead(0));
+    Serial.println("Setup ferdig");
+    warroom.sendMsg("Tzuno er klar!");
 }
 
 void loop() {

@@ -18,9 +18,9 @@ i valg av strategi
 class Strategy {
 protected:
 	float sonarDistance=0;//Ikke i bruk
-    float sonarDistanceLeft;
-	float sonarDistanceRight;
-	float sonarDistanceBack;
+    float sonarDistanceLeft=0;
+	float sonarDistanceRight=0;
+	float sonarDistanceBack=0;
     float lastSonarDistanceLeft;
 	float lastSonarDistanceRight;
 	float lastSonarDistanceBack;
